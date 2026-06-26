@@ -1,154 +1,223 @@
-# Guide d'Installation pour Développeurs — FamilyXP
+# Guide d'installation développeur
+
+Guide technique pour configurer les 4 environnements FamilyXP : **local**, **dev**, **uat**, **prod**.
+
+---
 
 ## 📋 Prérequis
 
-- **Node.js** v20+ (recommandé : v20 LTS)
-- **npm** v10+
-- **Git** v2+
-- **Firebase CLI** (dernière version)
-- **Compte GitHub**
+- Node.js >= 20
+- Git
+- Compte GitHub avec accès au repo
+- Firebase CLI (`npm install -g firebase-tools`)
+- Compte Firebase (gratuit)
 
-## 🚀 Installation rapide
+---
+
+## 🔄 Les 4 environnements
+
+| Environnement | Fichier `.env` | Projet Firebase | URL | Usage |
+|--------------|----------------|-----------------|-----|-------|
+| **LOCAL** | `.env.local` | Émulateurs | `localhost:3000` | Développement local |
+| **DEV** | `.env.dev` | `familyxp-dev` | `familyxp-dev.web.app` | Intégration continue |
+| **UAT** | `.env.uat` | `familyxp-uat` | `familyxp-uat.web.app` | Recettage / Tests |
+| **PROD** | `.env.prod` | `familyxp-prod` | `familyxp.app` | Production |
+
+---
+
+## 🏗️ Créer les projets Firebase
+
+### 1. Créer 3 projets Firebase (dev, uat, prod)
+
+Va sur https://console.firebase.google.com et crée 3 projets :
+
+1. **familyxp-dev** → environnement de développement
+2. **familyxp-uat** → environnement de recettage
+3. **familyxp-prod** → environnement de production
+
+### 2. Activer les services pour chaque projet
+
+Pour **chaque projet**, active :
+
+1. **Authentication** → Méthode de connexion : Email/Mot de passe
+2. **Cloud Firestore** → Mode test (règles permissives pour commencer)
+3. **Storage** (optionnel, pour plus tard)
+4. **Hosting** (pour le déploiement)
+
+### 3. Récupérer les clés Firebase
+
+Pour chaque projet :
+1. Console Firebase > Paramètres du projet > Général
+2. Section "Mes applications" > "Applications Web"
+3. Clique sur "Ajouter une application" > "Web"
+4. Copie les valeurs de configuration
+
+### 4. Remplir les fichiers `.env`
+
+**`.env.dev`** :
+```
+NUXT_PUBLIC_FIREBASE_API_KEY=AIzaSy... (clé du projet dev)
+NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN=familyxp-dev.firebaseapp.com
+NUXT_PUBLIC_FIREBASE_PROJECT_ID=familyxp-dev
+NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET=familyxp-dev.appspot.com
+NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
+NUXT_PUBLIC_FIREBASE_APP_ID=1:...:web:...
+```
+
+**`.env.uat`** : mêmes champs avec les valeurs du projet uat
+
+**`.env.prod`** : mêmes champs avec les valeurs du projet prod
+
+---
+
+## 🚀 Lancer les environnements
+
+### LOCAL (émulateurs)
 
 ```bash
-# Cloner
-git clone https://github.com/casabert/familyxp.git
-cd familyxp
-
-# Installer les dépendances
-npm install
-
-# Copier les variables d'environnement
-cp .env.example .env
-
-# Configurer Firebase
-firebase login
-firebase init
-
-# Lancer les émulateurs (terminal 1)
+# Terminal 1 : lancer les émulateurs
 npm run emulators
 
-# Lancer l'application (terminal 2)
-npm run dev
+# Terminal 2 : lancer l'app
+npm run dev:local
 ```
 
-## 🔧 Configuration détaillée
-
-### Firebase
-
-1. Créer un projet Firebase sur [console.firebase.google.com](https://console.firebase.google.com)
-2. Activer **Authentication** (Email/Password)
-3. Activer **Firestore Database** (mode test pour commencer)
-4. Activer **Hosting**
-5. Récupérer les clés dans Project Settings > General > Your apps > Web app
-
-### Variables d'environnement
+### DEV (projet Firebase réel)
 
 ```bash
-# .env
-VITE_FIREBASE_API_KEY=your-api-key
-VITE_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=your-project-id
-VITE_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=your-sender-id
-VITE_FIREBASE_APP_ID=your-app-id
-VITE_USE_FIREBASE_EMULATORS=true
+npm run dev:dev
 ```
 
-### Firebase Emulator Suite
-
-Les émulateurs permettent de développer localement sans affecter la production.
+### UAT (projet Firebase réel)
 
 ```bash
-# Lancer tous les émulateurs
-npm run emulators
-
-# UI des émulateurs accessible sur http://localhost:4000
+npm run dev:uat
 ```
 
-**Émulateurs disponibles :**
-- **Auth** : `localhost:9099`
-- **Firestore** : `localhost:8080`
-- **Storage** : `localhost:9199`
-- **Hosting** : `localhost:5000`
-- **UI** : `localhost:4000`
-
-## 📦 Scripts disponibles
+### PROD (projet Firebase réel)
 
 ```bash
-npm run dev          # Serveur de développement
-npm run build        # Build de production
-npm run preview      # Preview du build
-npm run test         # Tests unitaires
-npm run test:coverage # Tests avec couverture
-npm run test:e2e     # Tests E2E
-npm run lint         # Vérification ESLint
-npm run lint:fix     # Correction automatique ESLint
-npm run format       # Formatage Prettier
-npm run typecheck    # Vérification TypeScript
-npm run emulators    # Lancement des émulateurs Firebase
+npm run dev:prod
 ```
 
-## 🧪 Seed data
+---
 
-Pour charger les données de démonstration :
+## 📦 Déploiement
+
+### Configurer Firebase Hosting
+
+```bash
+# Initialiser Firebase dans le projet
+firebase init hosting
+
+# Configurer les projets
+firebase use --add
+# → Sélectionner familyxp-dev comme alias "dev"
+# → Sélectionner familyxp-uat comme alias "uat"
+# → Sélectionner familyxp-prod comme alias "prod"
+```
+
+### Déployer
+
+```bash
+# Build pour l'environnement cible
+npm run build:dev    # ou build:uat / build:prod
+
+# Déployer sur Firebase Hosting
+npm run deploy:dev   # ou deploy:uat / deploy:prod
+```
+
+---
+
+## 🔥 Émulateurs Firebase
+
+Les émulateurs permettent de développer sans projet Firebase réel.
+
+### Ports
+
+| Service | Port |
+|---------|------|
+| Emulator UI | 4000 |
+| Auth | 9099 |
+| Firestore | 8080 |
+| Storage | 9199 |
+
+### Seed data
+
+Pour charger des données de démonstration :
 
 ```bash
 npm run seed
 ```
 
-Cette commande charge les données familiales de démonstration dans les émulateurs :
-- 5 foyers (Papa, Maman, Steph & Wendy, Docdadi & Joséphine, Kiki & Jean-Pierre)
-- Membres associés
-- Contrats exemples
-- Règles bonus/malus
-- Récompenses
+### Exporter les données des émulateurs
+
+Les émulateurs sauvegardent automatiquement les données dans `./firebase-data/` quand on les arrête (Ctrl+C).
+
+---
+
+## 📝 Scripts disponibles
+
+```bash
+npm run dev:local     # Développement local (émulateurs)
+npm run dev:dev       # Développement sur DEV
+npm run dev:uat       # Développement sur UAT
+npm run dev:prod      # Développement sur PROD
+npm run build:dev     # Build pour DEV
+npm run build:uat     # Build pour UAT
+npm run build:prod    # Build pour PROD
+npm run deploy:dev    # Déploiement DEV
+npm run deploy:uat    # Déploiement UAT
+npm run deploy:prod   # Déploiement PROD
+npm run emulators     # Lancer les émulateurs
+npm run seed          # Charger les données de démo
+npm run test          # Tests unitaires
+npm run lint          # Vérification du code
+```
+
+---
+
+## 🔒 Sécurité
+
+### Règles Firestore
+
+Les règles de sécurité Firestore sont dans `firestore.rules`.  
+En développement, utilise des règles permissives.  
+En production, applique des règles strictes basées sur l'authentification.
+
+### Variables sensibles
+
+- Les fichiers `.env.*` sont dans `.gitignore`
+- Ne **jamais** commiter les vraies clés Firebase
+- Utilise `.env.example` comme template
+- Partage les clés via un canal sécurisé (pas par email)
+
+---
 
 ## 🐳 Docker (optionnel)
 
-Si tu préfères utiliser Docker pour les émulateurs Firebase :
+Si tu préfères utiliser Docker pour les émulateurs :
 
 ```bash
-docker-compose up -d
+docker run -d \
+  --name firebase-emulators \
+  -p 4000:4000 -p 8080:8080 -p 9099:9099 -p 9199:9199 \
+  -v $(pwd)/firebase-data:/firebase/data \
+  firebase-emulators
 ```
 
-## 📝 VS Code Extensions recommandées
+---
 
-- **Vue Language Features** (Volar)
-- **TypeScript Vue Plugin**
-- **Tailwind CSS IntelliSense**
-- **ESLint**
-- **Prettier**
-- **Firebase Explorer**
-- **GitLens**
+## ❓ FAQ
 
-## 🔍 Dépannage
+### Comment savoir quel environnement est actif ?
+Regarde la variable `NUXT_PUBLIC_APP_ENV` dans ton `.env` ou dans la console du navigateur.
 
-### Problème : Les émulateurs ne démarrent pas
+### Puis-je utiliser le même projet Firebase pour dev et prod ?
+**Non.** Chaque environnement doit avoir son propre projet Firebase pour éviter de mélanger les données.
 
-```bash
-# Vérifier que Java est installé (requis pour les émulateurs)
-java --version
+### Les émulateurs sont-ils obligatoires ?
+Non, mais ils sont fortement recommandés pour le développement local. Sans eux, tu utilises le projet Firebase réel.
 
-# Réinitialiser les émulateurs
-firebase emulators:start --only firestore --clear-data
-```
-
-### Problème : Erreur de connexion Firebase
-
-```bash
-# Vérifier la configuration
-cat .env
-
-# Vérifier que les émulateurs tournent
-curl http://localhost:4000
-```
-
-### Problème : Tests qui échouent
-
-```bash
-# Vérifier que les émulateurs tournent
-# Vérifier les variables d'environnement
-# Vider le cache
-npm run emulators:clear
-```
+### Comment réinitialiser les données des émulateurs ?
+Supprime le dossier `firebase-data/` et relance les émulateurs.

@@ -1,189 +1,299 @@
-# Guide de Dépannage — FamilyXP
+# Guide de dépannage
 
-## 🚀 Démarrage
+Erreurs fréquentes et solutions pour FamilyXP / FamQuest.
 
-### L'application ne démarre pas
+---
 
-**Symptôme :** `npm run dev` échoue
+## 📦 Installation
+
+### `npm install` échoue
+
+**Symptôme :** Erreurs pendant l'installation des dépendances.
 
 **Solutions :**
 ```bash
-# 1. Vérifier la version de Node.js
-node --version  # Doit être >= 18
+# 1. Vider le cache npm
+npm cache clean --force
 
-# 2. Réinstaller les dépendances
+# 2. Supprimer node_modules et réinstaller
 rm -rf node_modules package-lock.json
 npm install
 
-# 3. Vider le cache Nuxt
-rm -rf .nuxt
-npm run dev
+# 3. Vérifier la version de Node.js
+node --version  # Doit être >= 20
 ```
 
-### Port déjà utilisé
+### `command not found: nuxi`
 
-**Symptôme :** `Error: listen EADDRINUSE :::3000`
+**Symptôme :** La commande `nuxi` n'est pas trouvée.
+
+**Solution :**
+```bash
+npm install
+# nuxi est installé automatiquement avec Nuxt
+```
+
+---
+
+## 🔥 Émulateurs Firebase
+
+### `Firebase emulators not running`
+
+**Symptôme :** L'application ne se connecte pas aux émulateurs.
 
 **Solutions :**
+```bash
+# 1. Vérifier que les émulateurs tournent
+# Tu dois voir dans le terminal :
+# ✔  All emulators ready!
+
+# 2. Vérifier les ports
+lsof -i :8080  # Firestore
+lsof -i :9099  # Auth
+lsof -i :9199  # Storage
+
+# 3. Relancer les émulateurs
+npm run emulators
+```
+
+### `Port already in use`
+
+**Symptôme :** Un port est déjà utilisé par un autre processus.
+
+**Solution :**
+```bash
+# Trouver le processus qui utilise le port
+lsof -i :8080
+
+# Tuer le processus (remplacer PID par le numéro)
+kill -9 PID
+
+# Ou utiliser un autre port en modifiant .env.local
+# NUXT_PUBLIC_FIRESTORE_EMULATOR_HOST=localhost:8081
+```
+
+### Les émulateurs ne sauvegardent pas les données
+
+**Symptôme :** Les données sont perdues après avoir arrêté les émulateurs.
+
+**Solution :**
+```bash
+# Lancer avec export automatique
+npm run emulators  # Utilise --export-on-exit
+
+# Les données sont sauvegardées dans ./firebase-data/
+```
+
+---
+
+## 🔐 Authentification
+
+### `Firebase: Error (auth/operation-not-allowed)`
+
+**Symptôme :** Impossible de créer un compte.
+
+**Solution :**
+1. Va sur la console Firebase
+2. Authentication > Sign-in method
+3. Active "Email/Password"
+4. Attends 1-2 minutes que la configuration se propage
+
+### `Firebase: Error (auth/email-already-in-use)`
+
+**Symptôme :** L'email est déjà utilisé.
+
+**Solution :** Utilise un autre email ou connecte-toi avec l'email existant.
+
+### `Firebase: Error (auth/weak-password)`
+
+**Symptôme :** Mot de passe trop court.
+
+**Solution :** Le mot de passe doit faire au moins 6 caractères.
+
+---
+
+## 🌐 Application
+
+### L'application ne se charge pas
+
+**Symptôme :** Page blanche ou erreur au chargement.
+
+**Solutions :**
+```bash
+# 1. Vérifier que le serveur tourne
+# Tu dois voir dans le terminal :
+# ✔ Nuxt 3.x.x ready in Xms
+# ✔ Local: http://localhost:3000
+
+# 2. Vérifier la console navigateur (F12 > Console)
+# Cherche les erreurs rouges
+
+# 3. Vider le cache navigateur
+# Cmd+Shift+R (rechargement forcé)
+
+# 4. Vérifier le fichier .env.local
+cat .env.local
+```
+
+### `[nuxt] [request error]` dans la console
+
+**Symptôme :** Erreur Nuxt au chargement d'une page.
+
+**Solutions :**
+```bash
+# 1. Redémarrer le serveur de développement
+# Ctrl+C puis npm run dev:local
+
+# 2. Vérifier les types TypeScript
+npm run typecheck
+
+# 3. Vérifier les dépendances
+npm ls --depth=0
+```
+
+### Erreur CORS
+
+**Symptôme :** Blocage CORS dans la console navigateur.
+
+**Solution :** Ce problème arrive surtout en production. Vérifie la configuration Firebase Hosting.
+
+---
+
+## 🐛 Tests
+
+### Les tests ne passent pas
+
+**Symptôme :** `npm run test` échoue.
+
+**Solutions :**
+```bash
+# 1. Vérifier que les émulateurs tournent
+npm run emulators
+
+# 2. Lancer un test spécifique
+npx vitest run tests/monTest.test.ts
+
+# 3. Voir les logs détaillés
+npx vitest run --reporter=verbose
+```
+
+---
+
+## 🚀 Déploiement
+
+### `firebase deploy` échoue
+
+**Symptôme :** Erreur lors du déploiement Firebase.
+
+**Solutions :**
+```bash
+# 1. Vérifier que tu es connecté
+firebase login
+
+# 2. Vérifier le projet actif
+firebase use
+
+# 3. Vérifier les projets configurés
+firebase projects:list
+
+# 4. Build avant de déployer
+npm run build:dev
+npm run deploy:dev
+```
+
+### `Hosting URL not found`
+
+**Symptôme :** L'URL de déploiement ne fonctionne pas.
+
+**Solution :** Vérifie que le hosting est activé dans la console Firebase.
+
+---
+
+## 📁 Fichiers
+
+### `.env.local` ignoré par Git
+
+**Symptôme :** Les modifications de `.env.local` n'apparaissent pas dans `git status`.
+
+**Solution :** C'est normal ! `.env.local` est dans `.gitignore` pour des raisons de sécurité.
+
+### Fichier verrouillé
+
+**Symptôme :** Impossible de modifier un fichier.
+
+**Solution :**
+```bash
+# Vérifier les permissions
+ls -la nom_du_fichier
+
+# Déverrouiller si nécessaire
+chmod 644 nom_du_fichier
+```
+
+---
+
+## 🖥️ macOS spécifique
+
+### `zsh: command not found`
+
+**Symptôme :** Une commande n'est pas trouvée.
+
+**Solution :**
+```bash
+# Vérifier le PATH
+echo $PATH
+
+# Ajouter npm au PATH si nécessaire
+export PATH="/usr/local/bin:$PATH"
+```
+
+### Port déjà utilisé sur macOS
+
+**Symptôme :** `listen EADDRINUSE :::3000`
+
+**Solution :**
 ```bash
 # Trouver le processus
 lsof -i :3000
 
-# Le tuer (remplacer PID)
-kill -9 PID
-
-# Ou utiliser un autre port
-npm run dev -- --port 3001
-```
-
-## 🔥 Firebase Emulators
-
-### Les émulateurs ne démarrent pas
-
-**Symptôme :** `firebase emulators:start` échoue
-
-**Solutions :**
-```bash
-# 1. Vérifier Java (requis)
-java --version
-
-# 2. Installer Java si nécessaire
-# macOS:
-brew install openjdk@17
-
-# 3. Réinitialiser les émulateurs
-firebase emulators:start --only firestore --clear-data
-```
-
-### Erreur "port already in use" pour les émulateurs
-
-```bash
-# Trouver et tuer les processus
-lsof -i :9099  # Auth
-lsof -i :8080  # Firestore
-lsof -i :9199  # Storage
-lsof -i :4000  # UI
+# Tuer le processus
 kill -9 PID
 ```
 
-### Les données des émulateurs sont corrompues
+---
+
+## 🔄 Réinstallation complète
+
+Si rien ne fonctionne, réinstalle tout :
 
 ```bash
-# Effacer toutes les données des émulateurs
-firebase emulators:export ./backup
-firebase emulators:start --clear-data
-```
+# 1. Supprimer le projet
+cd ~/Documents
+rm -rf familyxp
 
-## 🔐 Authentification
+# 2. Recloner
+git clone https://github.com/ailidmx/familyxp.git
+cd familyxp
 
-### Impossible de se connecter
-
-**Solutions :**
-1. Vérifier que les émulateurs tournent
-2. Vérifier `VITE_USE_FIREBASE_EMULATORS=true` dans `.env`
-3. Vérifier que l'utilisateur existe dans l'émulateur Auth (http://localhost:4000/auth)
-
-### Erreur "Firebase: Error (auth/configuration-not-found)"
-
-**Solution :** Vérifier les clés Firebase dans `.env`
-
-### Erreur "Firebase: Error (auth/email-already-in-use)"
-
-**Solution :** L'email est déjà utilisé. Utiliser un autre email ou se connecter.
-
-## 📦 npm
-
-### Erreurs de dépendances
-
-```bash
-# Solution radicale
-rm -rf node_modules package-lock.json
-npm cache clean --force
+# 3. Réinstaller
 npm install
+
+# 4. Copier .env
+cp .env.example .env.local
+
+# 5. Lancer
+npm run emulators  # Terminal 1
+npm run dev:local  # Terminal 2
 ```
 
-### Version de Node.js incompatible
+---
 
-```bash
-# Utiliser nvm pour gérer les versions
-nvm install 20
-nvm use 20
-```
+## 📞 Support
 
-## 🧪 Tests
-
-### Les tests ne passent pas
-
-**Solutions :**
-1. Vérifier que les émulateurs Firebase tournent
-2. Vérifier les variables d'environnement
-3. Vider le cache Vitest : `rm -rf node_modules/.cache/vitest`
-
-### Tests E2E échouent
-
-**Solutions :**
-1. Vérifier que l'application tourne : `npm run dev`
-2. Vérifier que les émulateurs tournent
-3. Installer les browsers Playwright : `npx playwright install`
-
-## 🐛 Bugs connus
-
-### Les points ne s'affichent pas
-
-**Cause possible :** Problème de souscription Firestore en temps réel
-
-**Solution :** Rafraîchir la page ou vérifier la connexion aux émulateurs
-
-### Le sélecteur de foyer ne fonctionne pas
-
-**Cause possible :** L'utilisateur n'a pas de membership actif
-
-**Solution :** Vérifier dans l'UI des émulateurs (http://localhost:4000/firestore) que le membership existe
-
-## 📱 Mobile
-
-### L'application ne se charge pas sur mobile
-
-**Solutions :**
-1. Vérifier que le téléphone est sur le même réseau WiFi
-2. Vérifier l'adresse IP : `ipconfig getifaddr en0`
-3. Désactiver le pare-feu macOS
-4. Utiliser `--host` : `npm run dev -- --host`
-
-### La PWA ne s'installe pas
-
-**Solutions :**
-1. Utiliser HTTPS en production
-2. Vérifier le manifeste : `http://localhost:3000/manifest.json`
-3. Vérifier le service worker dans les DevTools > Application > Service Workers
-
-## 🔄 Git
-
-### Erreur de merge
-
-```bash
-# Annuler le merge
-git merge --abort
-
-# Ou résoudre les conflits manuellement
-git mergetool
-```
-
-### Commit sur la mauvaise branche
-
-```bash
-# Déplacer le commit sur une nouvelle branche
-git branch feat/ma-feature
-git reset HEAD~1 --hard
-git checkout feat/ma-feature
-```
-
-## 🆘 Contacter l'équipe
-
-Si rien ne fonctionne :
-1. Vérifier les issues GitHub existantes
-2. Créer une nouvelle issue avec :
+Si le problème persiste :
+1. Vérifie les **issues GitHub** existantes
+2. Crée une **nouvelle issue** avec :
    - Le message d'erreur complet
+   - Ton OS et version
    - Les étapes pour reproduire
-   - Ton environnement (OS, Node.js version)
-3. Contacter David ou Docdadi
+3. Contacte l'équipe sur le canal dédié

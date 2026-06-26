@@ -1,185 +1,211 @@
-# Guide d'Installation pour Débutants — FamilyXP
+# Guide d'installation pour débutants
 
-Ce guide est conçu pour les personnes qui n'ont jamais fait de développement. Suis les étapes une par une.
+Bienvenue dans **FamilyXP / FamQuest** ! Ce guide va t'accompagner pas à pas pour installer et lancer l'application sur ton ordinateur.
+
+---
 
 ## 📋 Prérequis
 
-### 1. Installer Node.js
+Avant de commencer, tu dois installer deux choses sur ton ordinateur :
 
-Node.js est un logiciel qui permet de faire tourner l'application.
+### 1. Node.js (version 20 ou plus)
 
-1. Va sur [https://nodejs.org](https://nodejs.org)
+Node.js permet d'exécuter du code JavaScript en dehors du navigateur.
+
+**Téléchargement :**
+1. Va sur https://nodejs.org
 2. Télécharge la version **LTS** (recommandée)
-3. Ouvre le fichier téléchargé et suis les instructions d'installation
-4. Laisse tout par défaut, clique "Suivant" jusqu'à la fin
+3. Lance l'installateur et suis les instructions
+4. Redémarre ton terminal si nécessaire
 
 **Vérification :**
-- Ouvre un terminal (Cherche "Terminal" dans les applications)
-- Tape : `node --version`
-- Tu devrais voir quelque chose comme `v20.x.x`
+Ouvre un terminal et tape :
+```bash
+node --version
+# Doit afficher : v20.x.x ou plus
+npm --version
+# Doit afficher : 10.x.x ou plus
+```
 
-### 2. Installer Git
+### 2. Git
 
-Git permet de télécharger et gérer le code.
+Git permet de télécharger et gérer le code source.
 
-1. Va sur [https://git-scm.com](https://git-scm.com)
+**Téléchargement :**
+1. Va sur https://git-scm.com/downloads
 2. Télécharge la version pour macOS
-3. Ouvre le fichier et suis les instructions
-4. Laisse tout par défaut
-
-**Vérification :**
-- Dans le terminal, tape : `git --version`
-- Tu devrais voir quelque chose comme `git version 2.x.x`
-
-### 3. Créer un compte GitHub
-
-GitHub est le site où est stocké le code.
-
-1. Va sur [https://github.com](https://github.com)
-2. Clique sur "Sign up"
-3. Choisis un nom d'utilisateur
-4. Entre ton email
-5. Choisis un mot de passe
-6. Vérifie ton email
-
-### 4. Installer Firebase CLI
-
-Firebase CLI permet de lancer les émulateurs locaux.
-
-```bash
-npm install -g firebase-tools
-```
+3. Lance l'installateur et suis les instructions
 
 **Vérification :**
 ```bash
-firebase --version
+git --version
+# Doit afficher : git version 2.x.x
 ```
 
-## 🚀 Installation du projet
+### 3. Compte GitHub (optionnel pour lire seulement)
 
-### 1. Cloner le repository
+Si tu veux contribuer au code, crée un compte sur https://github.com
+
+---
+
+## 🚀 Installation étape par étape
+
+### Étape 1 : Cloner le projet
+
+Ouvre un **terminal** (Terminal.app sur macOS) et tape :
 
 ```bash
-# Va dans le dossier où tu veux mettre le projet
+# Va dans le dossier où tu veux installer le projet
 cd ~/Documents
 
-# Télécharge le code
-git clone https://github.com/casabert/familyxp.git
+# Télécharge le projet
+git clone https://github.com/ailidmx/familyxp.git
 
-# Entre dans le dossier
+# Entre dans le dossier du projet
 cd familyxp
 ```
 
-### 2. Installer les dépendances
+### Étape 2 : Installer les dépendances
 
 ```bash
 npm install
 ```
 
-Cette commande télécharge toutes les bibliothèques nécessaires. Ça peut prendre quelques minutes.
+Cette commande télécharge toutes les bibliothèques nécessaires au projet.  
+Cela peut prendre 1 à 2 minutes la première fois.
 
-### 3. Configurer les variables d'environnement
+### Étape 3 : Copier le fichier d'environnement
 
 ```bash
-# Copie le fichier d'exemple
-cp .env.example .env
+# Copie le fichier d'exemple en fichier de configuration local
+cp .env.example .env.local
 ```
 
-Ouvre le fichier `.env` avec un éditeur de texte (Bloc-Notes, TextEdit, VS Code).
+Le fichier `.env.local` contient les clés de configuration pour Firebase.  
+En local, on utilise les **émulateurs Firebase** (pas besoin de projet réel).
 
-Tu dois remplir les valeurs Firebase. Pour les obtenir :
+### Étape 4 : Installer Firebase CLI (pour les émulateurs)
 
-1. Va sur [https://console.firebase.google.com](https://console.firebase.google.com)
-2. Crée un projet (ou utilise un existant)
-3. Va dans "Project Settings" > "General" > "Your apps"
-4. Clique sur "Add app" > "Web"
-5. Copie les valeurs dans ton fichier `.env`
+```bash
+npm install -g firebase-tools
+```
 
-### 4. Lancer les émulateurs Firebase
+### Étape 5 : Lancer les émulateurs Firebase
+
+Dans un **premier terminal**, lance :
 
 ```bash
 npm run emulators
 ```
 
-Cette commande lance des versions locales de Firebase. Laisse cette fenêtre ouverte.
-
-### 5. Lancer l'application
-
-Ouvre un **nouveau** terminal et tape :
-
-```bash
-npm run dev
+Tu devrais voir quelque chose comme :
+```
+┌──────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect.│
+│    UI: http://localhost:4000                      │
+│    Auth: http://localhost:9099                    │
+│    Firestore: http://localhost:8080               │
+│    Storage: http://localhost:9199                 │
+└──────────────────────────────────────────────────┘
 ```
 
-### 6. Ouvrir l'application
+Laisse ce terminal ouvert.
 
-1. Ouvre ton navigateur (Chrome, Safari, Firefox)
-2. Va à l'adresse : [http://localhost:3000](http://localhost:3000)
-3. Tu devrais voir l'application !
+### Étape 6 : Lancer l'application
 
-## 🐛 Résolution des erreurs fréquentes
+Dans un **deuxième terminal**, tape :
 
-### "npm install" échoue
-
-**Solution :** Essaie :
 ```bash
-npm cache clean --force
-npm install
+cd ~/Documents/familyxp
+npm run dev:local
 ```
 
-### "Port already in use"
+L'application va compiler et s'ouvrir dans ton navigateur à l'adresse :
+**http://localhost:3000**
 
-**Solution :** Un autre programme utilise le port. Essaie :
+### Étape 7 : Créer un compte de test
+
+1. Va sur http://localhost:3000/register
+2. Crée un compte avec un email et un mot de passe
+3. Tu peux utiliser n'importe quel email (ex: `test@test.com`)
+4. Le mot de passe doit faire au moins 6 caractères
+
+---
+
+## 🎯 Résumé des commandes
+
+| Commande | Description |
+|----------|-------------|
+| `npm run dev:local` | Lance l'app avec les émulateurs locaux |
+| `npm run dev:dev` | Lance l'app connectée au projet Firebase DEV |
+| `npm run dev:uat` | Lance l'app connectée au projet Firebase UAT |
+| `npm run dev:prod` | Lance l'app connectée au projet Firebase PROD |
+| `npm run emulators` | Lance les émulateurs Firebase |
+| `npm run test` | Lance les tests unitaires |
+| `npm run lint` | Vérifie le style du code |
+| `npm run build` | Compile l'application pour la production |
+
+---
+
+## 🔧 Dépannage
+
+### Erreur : `command not found: npm`
+→ Node.js n'est pas installé correctement. Réinstalle Node.js.
+
+### Erreur : `Could not load @pinia/nuxt`
+→ Lance `npm install` à nouveau.
+
+### Erreur : `Port 3000 already in use`
+→ Un autre programme utilise le port 3000. Modifie le port avec :
 ```bash
-# Trouve ce qui utilise le port
-lsof -i :3000
-
-# Tue le processus (remplace PID par le numéro)
-kill -9 PID
+npx nuxi dev --port 3001
 ```
 
-### "Firebase command not found"
+### Erreur : `Firebase emulators not running`
+→ Assure-toi que `npm run emulators` tourne dans un autre terminal.
 
-**Solution :** Firebase CLI n'est pas installé :
-```bash
-npm install -g firebase-tools
+### L'application ne se charge pas
+1. Vérifie que les émulateurs tournent (Étape 5)
+2. Vérifie que l'app tourne (Étape 6)
+3. Ouvre http://localhost:3000 dans ton navigateur
+
+---
+
+## 📁 Structure du projet
+
+```
+familyxp/
+├── app/
+│   ├── components/     # Composants Vue réutilisables
+│   ├── pages/          # Pages de l'application
+│   ├── layouts/        # Layouts (auth, default)
+│   ├── stores/         # Stores Pinia (état global)
+│   ├── types/          # Types TypeScript
+│   ├── lib/firebase/   # Configuration Firebase
+│   └── utils/          # Fonctions utilitaires
+├── docs/               # Documentation
+├── onboarding/         # Guides d'installation
+├── scripts/            # Scripts (seed, etc.)
+├── .env.local          # Configuration locale
+├── .env.dev            # Configuration DEV
+├── .env.uat            # Configuration UAT
+├── .env.prod           # Configuration PROD
+└── nuxt.config.ts      # Configuration Nuxt
 ```
 
-### "Module not found"
+---
 
-**Solution :** Les dépendances ne sont pas installées :
-```bash
-npm install
-```
+## 📚 Prochaines étapes
 
-### Erreur de connexion Firebase
+- Lis le fichier `README.md` pour une vue d'ensemble du projet
+- Consulte `docs/ARCHITECTURE.md` pour comprendre l'architecture
+- Explore `docs/DATA_MODEL.md` pour le modèle de données
+- Regarde `docs/BUSINESS_RULES.md` pour les règles métier
 
-**Solution :** Vérifie que :
-1. Les émulateurs tournent (terminal avec `npm run emulators`)
-2. Le fichier `.env` est correctement configuré
-3. `VITE_USE_FIREBASE_EMULATORS=true` dans `.env`
+---
 
-## 📱 Tester sur mobile
+## 💬 Besoin d'aide ?
 
-1. Assure-toi que ton téléphone est sur le même réseau WiFi que ton ordinateur
-2. Trouve l'adresse IP de ton ordinateur :
-   ```bash
-   ipconfig getifaddr en0
-   ```
-3. Sur ton téléphone, va à l'adresse : `http://[IP]:3000`
-   (remplace [IP] par l'adresse trouvée)
-
-## 💡 Prochaines étapes
-
-1. Explore l'application
-2. Crée un compte
-3. Crée un foyer
-4. Ajoute des membres
-5. Crée un contrat avec des règles
-6. Ajoute des points
-
-## 🆘 Besoin d'aide ?
-
-- Regarde la documentation dans le dossier `docs/`
-- Vérifie le fichier `TROUBLESHOOTING.md`
-- Demande à David ou Docdadi
+- Ouvre une **issue** sur GitHub : https://github.com/ailidmx/familyxp/issues
+- Consulte le fichier `TROUBLESHOOTING.md` pour les erreurs fréquentes
+- Demande à un membre de l'équipe

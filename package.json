@@ -4,7 +4,14 @@
   "type": "module",
   "scripts": {
     "dev": "nuxi dev",
+    "dev:local": "nuxi dev --dotenv .env.local",
+    "dev:dev": "nuxi dev --dotenv .env.dev",
+    "dev:uat": "nuxi dev --dotenv .env.uat",
+    "dev:prod": "nuxi dev --dotenv .env.prod",
     "build": "nuxi build",
+    "build:dev": "nuxi build --dotenv .env.dev",
+    "build:uat": "nuxi build --dotenv .env.uat",
+    "build:prod": "nuxi build --dotenv .env.prod",
     "generate": "nuxi generate",
     "preview": "nuxi preview",
     "postinstall": "nuxi prepare",
@@ -19,7 +26,10 @@
     "test:e2e": "playwright test",
     "seed": "npx tsx scripts/seed.ts",
     "emulators": "firebase emulators:start --import=./firebase-data --export-on-exit",
-    "emulators:seed": "firebase emulators:start --import=./firebase-data"
+    "emulators:seed": "firebase emulators:start --import=./firebase-data",
+    "deploy:dev": "firebase deploy --project familyxp-dev",
+    "deploy:uat": "firebase deploy --project familyxp-uat",
+    "deploy:prod": "firebase deploy --project familyxp-prod"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.9.0",
