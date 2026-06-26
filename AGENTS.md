@@ -132,6 +132,38 @@ npm run test:e2e
 npm run emulators
 ```
 
+## 📋 GitHub Project Board
+
+Le board de suivi est ici : https://github.com/users/ailidmx/projects/3
+
+### Utiliser le board avec les MCP tools GitHub
+
+Les agents IA avec accès aux MCP tools GitHub peuvent interagir avec le board :
+
+```bash
+# Lister les items du board
+./scripts/board.sh list
+
+# Ajouter un item (statut Todo par défaut)
+./scripts/board.sh add "Phase 2: Modèle familial"
+
+# Changer le statut d'un item
+./scripts/board.sh status PVTI_xxx "In Progress"
+./scripts/board.sh status PVTI_xxx Done
+```
+
+### Règles pour les agents IA
+
+1. **Avant de commencer une tâche** → Vérifier le board pour voir ce qui est en cours
+2. **En commençant une tâche** → Mettre l'item en "In Progress"
+3. **En terminant une tâche** → Mettre l'item en "Done"
+4. **Si une nouvelle tâche émerge** → L'ajouter au board en "Todo"
+
+### Synchronisation docs/board
+
+Le fichier `docs/PROJECT_BOARD.md` doit refléter l'état du board GitHub.
+Utiliser `./scripts/board.sh list` pour vérifier et mettre à jour manuellement si besoin.
+
 ## ❓ Questions fréquentes
 
 **Q: Puis-je modifier la structure du projet ?**
@@ -142,3 +174,7 @@ R: Oui, mais justifier dans le commit et mettre à jour la stack dans README.md.
 
 **Q: Comment gérer les données de démo ?**
 R: Utiliser `scripts/seed.ts` qui charge les données de démonstration dans les émulateurs.
+
+**Q: Comment mettre à jour le board ?**
+R: Utiliser `./scripts/board.sh` ou les MCP tools GitHub (git_status, git_commit, etc.).
+Le board est accessible via l'API GraphQL de GitHub.

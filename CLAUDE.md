@@ -57,6 +57,28 @@ test: ajouter les tests pour usePoints
 refactor: extraire la logique de validation
 ```
 
+## 📋 GitHub Project Board
+
+Le board de suivi : https://github.com/users/ailidmx/projects/3
+
+### Workflow board pour Claude
+
+1. **Avant de coder** → Vérifier le board (`./scripts/board.sh list`)
+2. **En commençant** → Mettre l'item en "In Progress"
+3. **En terminant** → Mettre l'item en "Done"
+4. **Nouvelle tâche** → L'ajouter au board
+
+### Utiliser les MCP tools GitHub
+
+Tu as accès aux MCP tools GitHub (git_status, git_commit, git_add, etc.).
+Pour le board, utiliser `./scripts/board.sh` qui fait les appels GraphQL.
+
+```bash
+./scripts/board.sh list                    # Voir les items
+./scripts/board.sh add "Titre"             # Ajouter un item
+./scripts/board.sh status PVTI_xxx Done    # Changer le statut
+```
+
 ## 🔍 Vérifications avant de proposer du code
 
 - [ ] Les types sont-ils corrects et complets ?
@@ -65,3 +87,4 @@ refactor: extraire la logique de validation
 - [ ] La logique métier est-elle dans un composable/store ?
 - [ ] Le code est-il mobile-friendly ?
 - [ ] La documentation est-elle à jour ?
+- [ ] Le board GitHub est-il à jour (statut de la tâche) ?

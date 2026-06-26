@@ -1,5 +1,26 @@
 # Règles Cline — FamilyXP
 
+## 📋 GitHub Project Board
+
+Le board de suivi : https://github.com/users/ailidmx/projects/3
+
+### Workflow board pour Cline
+
+1. **Avant de coder** → Vérifier le board (`./scripts/board.sh list`)
+2. **En commençant une tâche** → Mettre l'item en "In Progress"
+3. **En terminant une tâche** → Mettre l'item en "Done"
+4. **Nouvelle tâche** → L'ajouter au board en "Todo"
+
+### Utilitaire board.sh
+
+```bash
+./scripts/board.sh list                    # Voir les items
+./scripts/board.sh add "Titre"             # Ajouter un item
+./scripts/board.sh status PVTI_xxx Done    # Changer le statut
+```
+
+Le script utilise l'API GraphQL de GitHub via `gh auth token`.
+
 ## Gestion des serveurs de développement
 
 ### Toujours tuer les processus existants avant d'en lancer un nouveau
