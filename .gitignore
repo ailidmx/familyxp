@@ -1,41 +1,11 @@
-# Dependencies
 node_modules/
-.pnp
-.pnp.js
-
-# Build
-dist/
 .nuxt/
 .output/
-
-# Environment
+dist/
 .env
 .env.local
-.env.production
-
-# IDE
-.idea/
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Firebase
-.firebase/
-firebase-debug.log
-
-# Testing
-coverage/
-playwright-report/
-test-results/
-
-# Logs
 *.log
-npm-debug.log*
-
-# Cache
-.cache/
-.turbo/
+.DS_Store
+coverage/
+.firebase/
+firebase-data/
