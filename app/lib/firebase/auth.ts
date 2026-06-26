@@ -7,8 +7,8 @@ import {
   sendPasswordResetEmail,
   type User as FirebaseUser,
 } from 'firebase/auth'
-import { doc, setDoc, getDoc, Timestamp } from 'firebase/firestore'
-import { auth, db } from './client'
+import { auth } from './client'
+import { createUserProfile, getUserProfile, findUserByEmail, getDefaultAvatarUrl } from './users'
 import type { User } from '~/app/types'
 
 export function getCurrentUser(): FirebaseUser | null {
@@ -19,21 +19,66 @@ export function onAuthChange(callback: (user: FirebaseUser | null) => void): () 
   return onAuthStateChanged(auth, callback)
 }
 
-export async function signUp(email: string, password: string, displayName: string): Promise<User> {
+/**
+ * Inscription avec profil complet
+ *
+ * @param email - Email de l'utilisateur
+ * @param password - Mot de passe
+ * @param displayName - Nom d'affichage
+ * @param options - Options supplémentaires :
+ *   - birthDate: Date de naissance (pour déterminer isMinor)
+ *   - guardianEmail: Email de l'adulte référent (obligatoire si mineur)
+ */
+export async function signUp(
+  email: string,
+  password: string,
+  displayName: string,
+  options?: {
+    birthDate?: Date
+    guardianEmail?: string
+  }
+): Promise<User> {
+  // 1. Créer le compte Firebase Auth
   const credential = await createUserWithEmailAndPassword(auth, email, password)
   const firebaseUser = credential.user
 
+  // 2. Mettre à jour le profil Firebase Auth
   await updateProfile(firebaseUser, { displayName })
 
-  const user: User = {
-    id: firebaseUser.uid,
-    displayName,
-    email,
-    createdAt: Timestamp.now(),
-    updatedAt: Timestamp.now(),
+  // 3. Déterminer si mineur (moins de 18 ans)
+  let isMinor = false
+  let guardianIds: string[] = []
+
+  if (options?.birthDate) {
+    const age = calculateAge(options.birthDate)
+    isMinor = age < 18
   }
 
-  await setDoc(doc(db, 'users', firebaseUser.uid), user)
+  // 4. Si mineur, vérifier l'adulte référent
+  if (isMinor && options?.guardianEmail) {
+    const guardian = await findUserByEmail(options.guardianEmail)
+    if (guardian) {
+      guardianIds = [guardian.id]
+    }
+    // Si le référent n'existe pas encore, on laisse guardianIds vide
+    // L'adulte pourra être ajouté plus tard via addGuardian()
+  }
+
+  // 5. Créer le profil Firestore
+  const user = await createUserProfile(firebaseUser.uid, {
+    displayName,
+    email,
+    birthDate: options?.birthDate,
+    isMinor,
+    guardianIds,
+  })
+
+  // 6. Définir un avatar par défaut (initiales)
+  const avatarUrl = getDefaultAvatarUrl(displayName)
+  if (avatarUrl) {
+    await updateProfile(firebaseUser, { photoURL: avatarUrl })
+  }
+
   return user
 }
 
@@ -50,8 +95,15 @@ export async function resetPassword(email: string): Promise<void> {
   await sendPasswordResetEmail(auth, email)
 }
 
-export async function getUserProfile(userId: string): Promise<User | null> {
-  const docSnap = await getDoc(doc(db, 'users', userId))
-  if (!docSnap.exists()) return null
-  return { id: docSnap.id, ...docSnap.data() } as User
+/**
+ * Calcule l'âge à partir d'une date de naissance
+ */
+function calculateAge(birthDate: Date): number {
+  const today = new Date()
+  let age = today.getFullYear() - birthDate.getFullYear()
+  const monthDiff = today.getMonth() - birthDate.getMonth()
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    age--
+  }
+  return age
 }

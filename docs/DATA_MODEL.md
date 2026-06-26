@@ -17,11 +17,28 @@ interface User {
   id: string                    // Firebase Auth UID
   displayName: string           // Nom affiché
   email: string                 // Email
-  photoURL?: string             // Photo de profil
+  photoURL?: string             // Photo de profil (Firebase Storage ou avatar initials)
+  birthDate?: Timestamp         // Date de naissance (pour déterminer l'âge)
+  isMinor: boolean              // true si < 18 ans
+  guardianIds: string[]         // IDs des adultes référents (parents/tuteurs)
+                                // Obligatoire si isMinor === true
+                                // Un mineur peut avoir plusieurs référents
+                                // (ex: parents en garde alternée)
   createdAt: Timestamp          // Date de création
   updatedAt: Timestamp          // Dernière modification
 }
 ```
+
+**Règles métier liées aux utilisateurs :**
+- Un utilisateur **mineur** (isMinor === true) doit avoir au moins un `guardianId`
+- Un adulte référent est un utilisateur avec `isMinor === false`
+- L'email du référent est vérifié au moment de l'inscription du mineur
+- Si le référent n'existe pas encore dans Firestore, le mineur peut être créé sans référent
+  (le lien sera établi plus tard via `addGuardian()`)
+- Un adulte peut être référent de plusieurs mineurs
+- Un mineur peut avoir plusieurs référents (ex: parents séparés)
+- L'avatar par défaut est généré via `ui-avatars.com` avec les initiales
+- Le téléchargement de photo (Firebase Storage) sera implémenté dans une phase ultérieure
 
 ### `households`
 
