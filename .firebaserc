@@ -1,0 +1,10 @@
+{
+  "projects": {
+    "default": "famillyxp",
+    "dev": "famillyxp",
+    "uat": "familyxp-uat",
+    "prod": "familyxp-prod"
+  },
+  "targets": {},
+  "etags": {}
+}
