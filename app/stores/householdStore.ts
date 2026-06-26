@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { Timestamp } from 'firebase/firestore'
+import { Timestamp, where } from 'firebase/firestore'
 import { getDocuments, createDocument, setDocument } from '~/app/lib/firebase/firestore'
 import { useAuthStore } from './authStore'
 import type { Household, Membership } from '~/app/types'
@@ -57,8 +57,7 @@ export const useHouseholdStore = defineStore('household', () => {
     const authStore = useAuthStore()
     if (!authStore.userId) throw new Error('Not authenticated')
 
-    const householdId = await createDocument<Household>('households', {
-      id: '',
+    const householdId = await createDocument<Omit<Household, 'id'>>('households', {
       name,
       description,
       createdAt: Timestamp.now(),

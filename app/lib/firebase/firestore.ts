@@ -28,7 +28,7 @@ export function getDocRef(path: string) {
 export async function getDocument<T extends DocumentData>(path: string): Promise<T | null> {
   const docSnap = await getDoc(doc(db, path))
   if (!docSnap.exists()) return null
-  return { id: docSnap.id, ...docSnap.data() } as T
+  return { id: docSnap.id, ...docSnap.data() } as unknown as T
 }
 
 export async function getDocuments<T extends DocumentData>(
@@ -37,7 +37,7 @@ export async function getDocuments<T extends DocumentData>(
 ): Promise<T[]> {
   const q = query(collection(db, collectionPath), ...constraints)
   const snapshot = await getDocs(q)
-  return snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as T))
+  return snapshot.docs.map((d) => ({ id: d.id, ...d.data() } as unknown as T))
 }
 
 export async function createDocument<T extends DocumentData>(
