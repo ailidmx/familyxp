@@ -23,6 +23,15 @@ Chaque foyer définit **son propre contrat familial** négocié ensemble :
 - Grands-parents impliqués
 - Familles vivant dans plusieurs foyers
 
+## 📋 Liens utiles
+
+| Lien | URL |
+|------|-----|
+| **GitHub Project Board** | [https://github.com/users/ailidmx/projects/2](https://github.com/users/ailidmx/projects/2) |
+| **Budget & Coûts** | [docs/BUDGET.md](./docs/BUDGET.md) |
+| **Documentation** | [docs/](./docs/) |
+| **Repo GitHub** | [https://github.com/ailidmx/familyxp](https://github.com/ailidmx/familyxp) |
+
 ## 🛠 Stack technique
 
 | Technologie | Usage |
