@@ -75,7 +75,7 @@ export default {
     inviteTitle: 'Invitar a un miembro',
     inviteDescription: 'Ingresa el correo de la persona a invitar',
     inviteSent: 'Invitación enviada',
-    invitePlaceholder: 'email@ejemplo.com',
+    invitePlaceholder: 'email [at] ejemplo.com',
     role: {
       admin: 'Administrador',
       parent: 'Padre/Madre',
