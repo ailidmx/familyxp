@@ -1,0 +1,63 @@
+# Règles Cline — FamilyXP
+
+## Gestion des serveurs de développement
+
+### Toujours tuer les processus existants avant d'en lancer un nouveau
+
+Avant de lancer `npx nuxi dev` ou tout autre serveur de développement :
+
+```bash
+# Tuer tous les processus nuxi existants
+pkill -f "nuxi" 2>/dev/null
+
+# Tuer les processus node liés au projet
+pkill -f "node.*familyxp" 2>/dev/null
+```
+
+**Ne pas lancer un second serveur sans avoir tué le premier.** Sinon :
+- Le port 3000 reste occupé
+- Nuxt bascule sur un port alternatif (3001, 3002...)
+- On accumule des processus zombies
+
+### Vérifier les ports avant de lancer
+
+```bash
+# Voir ce qui écoute sur le port 3000
+lsof -i :3000 2>/dev/null
+
+# Tuer un processus spécifique sur le port 3000
+kill -9 $(lsof -ti :3000) 2>/dev/null
+```
+
+## Commandes utiles
+
+```bash
+# Lancer le serveur de dev (après avoir tué les anciens processus)
+npx nuxi dev
+
+# Lancer le serveur de dev sur un port spécifique
+npx nuxi dev --port 3000
+
+# Build de production
+npx nuxi build
+
+# Preview du build
+npx nuxi preview
+```
+
+## Firebase Emulators
+
+```bash
+# Lancer les émulateurs Firebase (dans un terminal séparé)
+npx firebase emulators:start --project demo-familyxp
+```
+
+## Tests
+
+```bash
+# Tests unitaires
+npx vitest
+
+# Tests E2E
+npx playwright test
+```
