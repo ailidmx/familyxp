@@ -32,6 +32,7 @@
     "deploy:prod": "firebase deploy --project familyxp-prod"
   },
   "dependencies": {
+    "@nuxtjs/i18n": "^9.5.0",
     "@pinia/nuxt": "^0.9.0",
     "@vueuse/core": "^11.0.0",
     "@vueuse/nuxt": "^11.0.0",

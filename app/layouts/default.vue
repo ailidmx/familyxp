@@ -4,12 +4,13 @@
       <div class="mx-auto flex h-14 max-w-lg items-center justify-between px-4">
         <NuxtLink to="/" class="flex items-center gap-2 font-bold text-primary">
           <span class="text-xl">⭐</span>
-          <span>FamilyXP</span>
+          <span>{{ $t('app.name') }}</span>
         </NuxtLink>
         <div class="flex items-center gap-3">
+          <LanguageSwitcher />
           <span class="text-sm text-muted-foreground">{{ authStore.displayName }}</span>
           <button @click="handleLogout" class="text-sm text-muted-foreground hover:text-foreground">
-            Déconnexion
+            {{ $t('auth.logout') }}
           </button>
         </div>
       </div>
@@ -21,19 +22,19 @@
       <div class="mx-auto flex h-16 max-w-lg items-center justify-around px-4">
         <NuxtLink to="/" class="flex flex-col items-center gap-1 text-xs text-muted-foreground hover:text-primary">
           <span>🏠</span>
-          <span>Accueil</span>
+          <span>{{ $t('nav.dashboard') }}</span>
         </NuxtLink>
         <NuxtLink to="/household" class="flex flex-col items-center gap-1 text-xs text-muted-foreground hover:text-primary">
           <span>👨‍👩‍👧‍👦</span>
-          <span>Foyers</span>
+          <span>{{ $t('nav.households') }}</span>
         </NuxtLink>
         <NuxtLink to="/points/history" class="flex flex-col items-center gap-1 text-xs text-muted-foreground hover:text-primary">
           <span>📊</span>
-          <span>Points</span>
+          <span>{{ $t('nav.points') }}</span>
         </NuxtLink>
         <NuxtLink to="/rewards" class="flex flex-col items-center gap-1 text-xs text-muted-foreground hover:text-primary">
           <span>🎁</span>
-          <span>Récompenses</span>
+          <span>{{ $t('nav.rewards') }}</span>
         </NuxtLink>
       </div>
     </nav>

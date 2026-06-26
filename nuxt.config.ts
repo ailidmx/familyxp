@@ -5,7 +5,34 @@ export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
     '@pinia/nuxt',
+    '@nuxtjs/i18n',
   ],
+
+  // ─── Internationalisation (i18n) ─────────────────────────────────────────
+  // Français (défaut) + Espagnol (Mexique)
+  // Détection automatique via navigateur, persistance dans localStorage
+  i18n: {
+    locales: [
+      { code: 'fr', name: 'Français', iso: 'fr-FR', file: 'fr.ts' },
+      { code: 'es', name: 'Español', iso: 'es-MX', file: 'es.ts' },
+    ],
+    defaultLocale: 'fr',
+    lazy: true,
+    langDir: '../i18n/locales/',
+    strategy: 'prefix_except_default',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root',
+      alwaysRedirect: true,
+      cookieCrossOrigin: true,
+    },
+    vueI18n: './app/i18n/i18n.config.ts',
+    bundle: {
+      optimizeTranslationDirective: false,
+      linkLocale: false,
+    },
+  },
 
   typescript: {
     strict: true,

@@ -1,5 +1,39 @@
 # Architecture Technique — FamilyXP / FamQuest
 
+## 🌍 Internationalisation (i18n)
+
+FamilyXP est conçu multi-région et multi-langue dès le départ.
+
+### Langues supportées
+
+| Code | Langue       | Région    | Fichier        |
+|------|-------------|-----------|----------------|
+| `fr` | Français    | France    | `fr.ts`        |
+| `es` | Español     | Mexique   | `es.ts`        |
+
+### Fonctionnement
+
+- Module : **@nuxtjs/i18n** (v9)
+- Stratégie : `prefix_except_default` (le français est sans préfixe, `/es/` pour l'espagnol)
+- Détection automatique : basée sur le navigateur (cookie `i18n_redirected`)
+- Persistance : cookie + localStorage
+- Fichiers de traduction : `app/i18n/locales/{langue}.ts`
+- Utilisation dans les templates : `$t('clef.traduction')`
+- Utilisation dans le script : `const { t } = useI18n()`
+
+### Ajouter une langue
+
+1. Créer `app/i18n/locales/{code}.ts`
+2. Ajouter l'entrée dans `nuxt.config.ts` → `i18n.locales`
+3. Ajouter la traduction dans `app/i18n/locales/fr.ts` et `es.ts` pour `language.{code}`
+
+### Composant LanguageSwitcher
+
+Disponible dans `app/components/LanguageSwitcher.vue`.
+Affiche les langues disponibles et permet de basculer instantanément.
+
+---
+
 ## 🏗 Vue d'ensemble
 
 ```

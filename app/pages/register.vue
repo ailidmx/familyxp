@@ -1,32 +1,32 @@
 <template>
   <NuxtLayout name="auth">
     <div class="rounded-lg border bg-card p-6 shadow-sm">
-      <h2 class="mb-6 text-center text-lg font-semibold">Inscription</h2>
+      <h2 class="mb-6 text-center text-lg font-semibold">{{ $t('auth.registerTitle') }}</h2>
       <form @submit.prevent="handleRegister" class="space-y-4">
         <div>
-          <label class="text-sm font-medium" for="name">Nom d'affichage</label>
+          <label class="text-sm font-medium" for="name">{{ $t('auth.displayName') }}</label>
           <input
             id="name"
             v-model="displayName"
             type="text"
             required
             class="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-            placeholder="Prénom"
+            :placeholder="$t('auth.displayName')"
           />
         </div>
         <div>
-          <label class="text-sm font-medium" for="email">Email</label>
+          <label class="text-sm font-medium" for="email">{{ $t('auth.email') }}</label>
           <input
             id="email"
             v-model="email"
             type="email"
             required
             class="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-            placeholder="exemple@email.com"
+            :placeholder="$t('auth.email')"
           />
         </div>
         <div>
-          <label class="text-sm font-medium" for="password">Mot de passe</label>
+          <label class="text-sm font-medium" for="password">{{ $t('auth.password') }}</label>
           <input
             id="password"
             v-model="password"
@@ -43,12 +43,12 @@
           :disabled="isLoading"
           class="w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
         >
-          {{ isLoading ? 'Inscription...' : 'Créer mon compte' }}
+          {{ isLoading ? $t('app.loading') : $t('auth.registerButton') }}
         </button>
       </form>
       <p class="mt-4 text-center text-sm text-muted-foreground">
-        Déjà un compte ?
-        <NuxtLink to="/login" class="text-primary hover:underline">Se connecter</NuxtLink>
+        {{ $t('auth.hasAccount') }}
+        <NuxtLink to="/login" class="text-primary hover:underline">{{ $t('auth.login') }}</NuxtLink>
       </p>
     </div>
   </NuxtLayout>
@@ -60,6 +60,7 @@ import { signUp } from '~/app/lib/firebase/auth'
 
 definePageMeta({ layout: false })
 
+const { t } = useI18n()
 const router = useRouter()
 const displayName = ref('')
 const email = ref('')
@@ -75,11 +76,11 @@ async function handleRegister() {
     router.push('/')
   } catch (e: any) {
     const messages: Record<string, string> = {
-      'auth/email-already-in-use': 'Cet email est déjà utilisé',
-      'auth/weak-password': 'Le mot de passe doit faire au moins 6 caractères',
-      'auth/invalid-email': 'Email invalide',
+      'auth/email-already-in-use': t('auth.errors.emailInUse'),
+      'auth/weak-password': t('auth.errors.weakPassword'),
+      'auth/invalid-email': t('auth.errors.invalidEmail'),
     }
-    error.value = messages[e.code] || 'Une erreur est survenue'
+    error.value = messages[e.code] || t('app.error')
   } finally {
     isLoading.value = false
   }

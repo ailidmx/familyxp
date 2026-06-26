@@ -4,22 +4,22 @@
     <div v-if="authStore.isLoading" class="flex items-center justify-center py-12">
       <div class="text-center">
         <div class="text-4xl">⏳</div>
-        <p class="mt-2 text-sm text-muted-foreground">Chargement...</p>
+        <p class="mt-2 text-sm text-muted-foreground">{{ $t('app.loading') }}</p>
       </div>
     </div>
 
     <!-- No household yet -->
     <div v-else-if="householdStore.households.length === 0" class="text-center py-12">
       <div class="text-4xl mb-4">🏠</div>
-      <h2 class="text-lg font-semibold">Bienvenue sur FamilyXP !</h2>
+      <h2 class="text-lg font-semibold">{{ $t('app.welcome') }}</h2>
       <p class="mt-2 text-sm text-muted-foreground">
-        Crée ton premier foyer pour commencer l'aventure.
+        {{ $t('household.createFirst') }}
       </p>
       <NuxtLink
         to="/household/create"
         class="mt-6 inline-block rounded-md bg-primary px-6 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
       >
-        Créer un foyer
+        {{ $t('household.create') }}
       </NuxtLink>
     </div>
 
@@ -47,7 +47,7 @@
         <!-- Points card -->
         <div class="rounded-lg border bg-card p-6 shadow-sm">
           <div class="text-center">
-            <p class="text-sm text-muted-foreground">Mes points</p>
+            <p class="text-sm text-muted-foreground">{{ $t('dashboard.myPoints') }}</p>
             <p class="text-4xl font-bold text-primary">{{ currentMembership.points }}</p>
             <p class="text-xs text-muted-foreground mt-1">XP</p>
           </div>
@@ -60,20 +60,20 @@
             class="flex flex-col items-center gap-2 rounded-lg border bg-card p-4 shadow-sm hover:bg-accent transition-colors"
           >
             <span class="text-2xl">➕</span>
-            <span class="text-sm font-medium">Ajouter des points</span>
+            <span class="text-sm font-medium">{{ $t('points.add') }}</span>
           </NuxtLink>
           <NuxtLink
             to="/rewards"
             class="flex flex-col items-center gap-2 rounded-lg border bg-card p-4 shadow-sm hover:bg-accent transition-colors"
           >
             <span class="text-2xl">🎁</span>
-            <span class="text-sm font-medium">Récompenses</span>
+            <span class="text-sm font-medium">{{ $t('nav.rewards') }}</span>
           </NuxtLink>
         </div>
 
         <!-- Recent activity -->
         <div>
-          <h3 class="text-sm font-semibold mb-3">Activité récente</h3>
+          <h3 class="text-sm font-semibold mb-3">{{ $t('dashboard.recentActivity') }}</h3>
           <div class="space-y-2">
             <div
               v-for="i in 3"
@@ -82,8 +82,8 @@
             >
               <span class="text-lg">📌</span>
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium truncate">Activité à venir</p>
-                <p class="text-xs text-muted-foreground">Les événements de points apparaîtront ici</p>
+                <p class="text-sm font-medium truncate">{{ $t('dashboard.recentActivity') }}</p>
+                <p class="text-xs text-muted-foreground">{{ $t('points.noHistory') }}</p>
               </div>
             </div>
           </div>
