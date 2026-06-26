@@ -9,19 +9,21 @@
 
 | Service | Coût/mois | Plan actuel | Notes |
 |---------|-----------|-------------|-------|
-| GitHub | 0 $ | Free | 3 repos, 2 000 min Actions/mois |
+| GitHub | 0 $ | Free | Repos illimités, 2 000 min Actions/mois |
+| GitHub Copilot Pro (David) | 10 $ | Pro | Déjà souscrit, partagé avec le projet |
 | Firebase DEV | 0 $ | Spark | Auth + Firestore + Hosting |
 | Firebase UAT | 0 $ | Spark | Auth + Firestore + Hosting |
 | Firebase PROD | 0 $ | Spark | Auth + Firestore + Hosting |
-| **Total mensuel** | **0 $** | | |
+| **Total mensuel** | **10 $** | | |
 
 ## 💰 Coûts annuels
 
 | Service | Coût/an | Période | Notes |
 |---------|---------|---------|-------|
+| GitHub Copilot Pro (David) | 120 $ | 2026 | 10 $/mois × 12 mois |
 | Apple Developer Program | 99 $ | 2026 | Pour Sign in with Apple (si App Store) |
 | Nom de domaine (optionnel) | ~10-15 $ | 2026 | ex: familyxp.app |
-| **Total annuel** | **~109-114 $** | | |
+| **Total annuel** | **~229-234 $** | | |
 
 ---
 
@@ -33,6 +35,12 @@
 - **Inclus :** Repos illimités, GitHub Actions (2 000 min/mois), GitHub Projects
 - **Dépassement :** ~0.008 $/min supplémentaire
 - **Compte :** [ailidmx](https://github.com/ailidmx)
+
+### GitHub Copilot Pro
+- **Plan :** Pro
+- **Coût :** 10 $/mois (déjà souscrit par David)
+- **Utilisation :** Suggestions de code, chat, agents IA
+- **Compte :** David (partagé avec le projet)
 
 ### Firebase
 - **Plan :** Spark (Free)
@@ -63,10 +71,11 @@
 
 | Mois | Coût estimé | Notes |
 |------|-------------|-------|
-| Mois 1 | 0 $ | Développement, émulateurs locaux |
-| Mois 2 | 0 $ | Tests, déploiement DEV |
-| Mois 3 | 0 $ | Beta famille (Spark suffit) |
-| Mois 6+ | 0-25 $/mois | Selon usage (Blaze si dépassement) |
+| Juin 2026 | 10 $ | Copilot Pro (déjà souscrit) |
+| Juillet 2026 | 10 $ | Développement, émulateurs locaux |
+| Août 2026 | 10 $ | Tests, déploiement DEV |
+| Septembre 2026 | 10 $ | Beta famille (Spark suffit) |
+| Mois 6+ | 10-35 $/mois | Selon usage (Blaze si dépassement) |
 
 ## 🚀 Projection post-MVP
 
@@ -84,7 +93,8 @@
 
 | Date | Service | Montant | Type | Notes |
 |------|---------|---------|------|-------|
-| - | - | - | - | Aucune dépense pour l'instant |
+| 26/06/2026 | GitHub Copilot Pro (Juin) | 10 $ | Récurrent mensuel | Déjà souscrit par David |
+| - | - | - | - | Aucune autre dépense pour l'instant |
 
 ---
 
@@ -93,8 +103,8 @@
 > **David + Docdadi = ~20 $/mois**
 
 Répartition suggérée :
-- David : 10 $/mois
-- Docdadi : 10 $/mois
+- David : 10 $/mois (Copilot Pro déjà souscrit)
+- Docdadi : 10 $/mois (réserve pour Firebase Blaze, domaine, Apple Developer)
 
 Cela couvre :
 - GitHub Copilot Pro (10 $/mois)

@@ -1,7 +1,7 @@
 # FamilyXP — Project Board
 
 > Board de suivi du projet.
-> Lien GitHub Projects : https://github.com/users/ailidmx/projects
+> Lien GitHub Projects : https://github.com/users/ailidmx/projects/3
 
 ---
 
@@ -16,10 +16,12 @@
 
 ## 🔧 In Progress — En cours
 
-- [x] Phase 1 : Socle technique (Repo, Nuxt, Firebase, PWA, Auth, Docs)
 - [ ] Budget & coûts suivi dans docs/BUDGET.md
+- [ ] Ajouter les tâches Phase 2 dans le GitHub Project Board
 
 ## ✅ Done — Terminé
+
+### Phase 1 — Socle technique ✅
 
 - [x] Repo GitHub créé (https://github.com/ailidmx/familyxp)
 - [x] Nuxt 3 + Vue 3 + TypeScript + Tailwind + shadcn-vue
@@ -36,10 +38,23 @@
 - [x] Branch protections (main + develop)
 - [x] Templates PR + issues
 - [x] Page /brand avec vote pour les 24 slogans
+
+### Firebase & Infrastructure ✅
+
 - [x] 3 projets Firebase créés (DEV, UAT, PROD)
 - [x] Firestore Database créé sur les 3 projets
 - [x] Firebase Auth activé (Email/Password) sur les 3 projets
-- [x] docs/BUDGET.md — Suivi des coûts
+- [x] 3 environnements (.env.local, .env.dev, .env.uat, .env.prod)
+- [x] Détection auto des émulateurs Firebase
+
+### Documentation & Suivi ✅
+
+- [x] docs/BUDGET.md — Suivi des coûts (10 $/mois Copilot Pro)
+- [x] docs/PROJECT_BOARD.md — Board de suivi des tâches
+- [x] GitHub Project Board #3 créé et public
+- [x] README.md complet avec liens utiles
+
+---
 
 ## 💰 Budget
 
@@ -48,13 +63,15 @@ Voir [docs/BUDGET.md](./BUDGET.md) pour le détail complet.
 | Service | Coût/mois | Plan |
 |---------|-----------|------|
 | GitHub | 0 $ | Free |
+| GitHub Copilot Pro (David) | 10 $ | Pro |
 | Firebase DEV | 0 $ | Spark |
 | Firebase UAT | 0 $ | Spark |
 | Firebase PROD | 0 $ | Spark |
-| **Total** | **0 $** | |
+| **Total** | **10 $** | |
 
 ## 📊 Statistiques du projet
 
 - Dernière mise à jour : 26/06/2026
 - Phase actuelle : Phase 1 (Socle technique) — ✅ Terminée
 - Prochaine phase : Phase 2 (Modèle familial)
+- Budget mensuel : 10 $ (Copilot Pro)
