@@ -1,6 +1,15 @@
 import type { Timestamp } from 'firebase/firestore'
 
 /**
+ * Rôles utilisateur dans FamilyXP
+ *
+ * - 'user' : utilisateur standard (peut gagner/perdre des points, réclamer des récompenses)
+ * - 'admin' : administrateur global (gère les foyers, les contrats, les validations)
+ * - 'superadmin' : super-administrateur (accès à toutes les fonctionnalités, gestion des comptes)
+ */
+export type UserRole = 'user' | 'admin' | 'superadmin'
+
+/**
  * Utilisateur de FamilyXP
  *
  * Un utilisateur peut être :
@@ -15,6 +24,9 @@ export interface User {
   id: string
   displayName: string
   email: string
+
+  /** Rôle global de l'utilisateur (défaut: 'user') */
+  role: UserRole
 
   /** URL de la photo de profil (Firebase Storage ou externe) */
   photoURL?: string

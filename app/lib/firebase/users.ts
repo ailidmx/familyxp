@@ -25,6 +25,7 @@ export async function createUserProfile(
     isMinor: boolean
     guardianIds?: string[]
     avatarId?: string
+    role?: 'user' | 'admin' | 'superadmin'
   }
 ): Promise<User> {
   const now = Timestamp.now()
@@ -33,6 +34,7 @@ export async function createUserProfile(
     id: userId,
     displayName: data.displayName,
     email: data.email,
+    role: data.role ?? 'user',
     avatarId: data.avatarId,
     isMinor: data.isMinor,
     guardianIds: data.guardianIds ?? [],

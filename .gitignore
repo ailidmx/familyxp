@@ -12,3 +12,6 @@ dist/
 coverage/
 .firebase/
 firebase-data/
+
+# Comptes de service Firebase Admin (clés privées - NE JAMAIS COMMITTER)
+scripts/service-accounts/*.json
