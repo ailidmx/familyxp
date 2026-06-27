@@ -1,12 +1,20 @@
 <script setup lang="ts">
 const { locale, locales, setLocale } = useI18n()
-const switchLocalePath = useSwitchLocalePath()
 
 const availableLocales = computed(() => {
   return (locales.value as Array<{ code: string; name: string }>).filter(
     (l) => l.code !== locale.value
   )
 })
+
+function flagFor(code: string): string {
+  const flags: Record<string, string> = {
+    fr: 'fr',
+    en: 'gb',
+    es: 'mx',
+  }
+  return flags[code] || code
+}
 </script>
 
 <template>
@@ -20,7 +28,7 @@ const availableLocales = computed(() => {
              transition-colors duration-150"
       :title="$t('language.switchTo')"
     >
-      <span class="fi" :class="`fi-${loc.code === 'fr' ? 'fr' : 'mx'}`" />
+      <span class="fi" :class="`fi-${flagFor(loc.code)}`" />
       {{ loc.name }}
     </button>
   </div>

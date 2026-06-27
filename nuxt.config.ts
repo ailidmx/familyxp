@@ -9,11 +9,12 @@ export default defineNuxtConfig({
   ],
 
   // ─── Internationalisation (i18n) ─────────────────────────────────────────
-  // Français (défaut) + Espagnol (Mexique)
+  // Français (défaut) + Anglais + Espagnol (Mexique)
   // Détection automatique via navigateur, persistance dans localStorage
   i18n: {
     locales: [
       { code: 'fr', name: 'Français', iso: 'fr-FR', file: 'fr.ts' },
+      { code: 'en', name: 'English', iso: 'en-US', file: 'en.ts' },
       { code: 'es', name: 'Español', iso: 'es-MX', file: 'es.ts' },
     ],
     defaultLocale: 'fr',

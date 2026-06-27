@@ -314,6 +314,7 @@ export default {
   // ─── Language ────────────────────────────────────────────────────────────
   language: {
     fr: 'Français',
+    en: 'English',
     es: 'Español',
     switchTo: 'Changer la langue',
     current: 'Langue actuelle',
