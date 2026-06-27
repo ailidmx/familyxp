@@ -24,6 +24,7 @@ export async function createUserProfile(
     birthDate?: Date
     isMinor: boolean
     guardianIds?: string[]
+    avatarId?: string
   }
 ): Promise<User> {
   const now = Timestamp.now()
@@ -32,6 +33,7 @@ export async function createUserProfile(
     id: userId,
     displayName: data.displayName,
     email: data.email,
+    avatarId: data.avatarId,
     isMinor: data.isMinor,
     guardianIds: data.guardianIds ?? [],
     createdAt: now,

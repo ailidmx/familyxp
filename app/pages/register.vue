@@ -117,21 +117,11 @@
             <p class="mt-1 text-xs text-muted-foreground">{{ $t('auth.guardianEmailHelp') }}</p>
           </div>
 
-          <!-- Photo / Avatar (optionnel) -->
-          <div>
-            <label class="text-sm font-medium">{{ $t('auth.avatar') }}</label>
-            <div class="mt-2 flex items-center gap-4">
-              <div
-                class="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-lg font-bold text-primary"
-              >
-                {{ avatarInitials }}
-              </div>
-              <div class="text-xs text-muted-foreground">
-                <p>{{ $t('auth.avatarHelp') }}</p>
-                <p class="mt-1">{{ $t('auth.avatarLater') }}</p>
-              </div>
-            </div>
-          </div>
+          <!-- Avatar ludique (sélecteur visuel) -->
+          <AvatarPicker
+            :age="age"
+            @select="form.avatarId = $event"
+          />
 
           <p v-if="error" class="text-sm text-destructive">{{ error }}</p>
 
@@ -181,6 +171,7 @@ const form = ref({
   password: '',
   birthDate: '',
   guardianEmail: '',
+  avatarId: '',
 })
 
 // Calcul de l'âge et statut mineur
@@ -234,6 +225,7 @@ async function handleRegister() {
     await signUp(form.value.email, form.value.password, form.value.displayName, {
       birthDate: birthDateObj.value ?? undefined,
       guardianEmail: isMinor.value ? form.value.guardianEmail : undefined,
+      avatarId: form.value.avatarId || undefined,
     })
     router.push('/')
   } catch (e: any) {

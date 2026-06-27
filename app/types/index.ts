@@ -1,4 +1,6 @@
 export type { User } from './user'
+export type { Avatar } from './avatar'
+export { AVATARS, getAvatarsByAgeGroup, getAvatarById, suggestAgeGroup } from './avatar'
 export type { Household } from './household'
 export type { Membership, MembershipRole } from './membership'
 export type { Contract, ContractStatus } from './contract'

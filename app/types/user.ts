@@ -19,6 +19,9 @@ export interface User {
   /** URL de la photo de profil (Firebase Storage ou externe) */
   photoURL?: string
 
+  /** ID de l'avatar ludique choisi (depuis la collection AVATARS) */
+  avatarId?: string
+
   /** Date de naissance (pour déterminer l'âge et les droits) */
   birthDate?: Timestamp
 

@@ -36,6 +36,7 @@ export async function signUp(
   options?: {
     birthDate?: Date
     guardianEmail?: string
+    avatarId?: string
   }
 ): Promise<User> {
   // 1. Créer le compte Firebase Auth
@@ -71,12 +72,15 @@ export async function signUp(
     birthDate: options?.birthDate,
     isMinor,
     guardianIds,
+    avatarId: options?.avatarId,
   })
 
-  // 6. Définir un avatar par défaut (initiales)
-  const avatarUrl = getDefaultAvatarUrl(displayName)
-  if (avatarUrl) {
-    await updateProfile(firebaseUser, { photoURL: avatarUrl })
+  // 6. Si pas d'avatar choisi, définir un avatar par défaut (initiales)
+  if (!options?.avatarId) {
+    const avatarUrl = getDefaultAvatarUrl(displayName)
+    if (avatarUrl) {
+      await updateProfile(firebaseUser, { photoURL: avatarUrl })
+    }
   }
 
   return user

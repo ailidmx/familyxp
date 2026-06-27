@@ -44,6 +44,21 @@
 
       <!-- Current household dashboard -->
       <div v-if="currentMembership" class="space-y-6">
+        <!-- User avatar + welcome -->
+        <div class="flex items-center gap-4 rounded-lg border bg-card p-4 shadow-sm">
+          <AvatarDisplay
+            :avatar-id="authStore.user?.avatarId"
+            :display-name="authStore.user?.displayName"
+            size="lg"
+          />
+          <div>
+            <h2 class="text-lg font-semibold">
+              {{ $t('dashboard.welcome', { name: authStore.user?.displayName || '' }) }}
+            </h2>
+            <p class="text-sm text-muted-foreground">{{ householdStore.currentHousehold?.name }}</p>
+          </div>
+        </div>
+
         <!-- Points card -->
         <div class="rounded-lg border bg-card p-6 shadow-sm">
           <div class="text-center">
