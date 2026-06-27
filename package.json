@@ -24,6 +24,7 @@
     "dev:prepare": "nuxi prepare",
     "lint": "eslint . --ext .vue,.ts,.js",
     "lint:fix": "eslint . --ext .vue,.ts,.js --fix",
+    "check:i18n": "node scripts/check-i18n-no-magic-strings.mjs",
     "typecheck": "vue-tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",

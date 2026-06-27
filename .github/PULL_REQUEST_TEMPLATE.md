@@ -87,6 +87,7 @@ Commandes executees localement:
 
 ```bash
 npm run lint
+npm run check:i18n
 npm run typecheck
 npm run test
 ```
@@ -131,6 +132,9 @@ Plan de rollback (obligatoire si risque moyen/eleve):
 - [ ] Mobile-first verifie (small viewport)
 - [ ] Accessibilite de base (labels, roles, focus)
 - [ ] i18n complete (FR/EN/ES selon zone)
+- [ ] Zero magic string UI (aucun texte utilisateur en dur)
+- [ ] Verification auto i18n passee (`npm run check:i18n`)
+- [ ] Revue humaine i18n effectuee (texte, tonalite, traduction, coherence)
 - [ ] Captures ecran ajoutees si UI
 
 Captures ecran (si UI):
@@ -152,6 +156,11 @@ Captures ecran (si UI):
 
 Points a relire en priorite:
 -
+
+Controle reviewer i18n obligatoire:
+- [ ] Aucun texte utilisateur en dur dans les composants
+- [ ] Clés i18n existantes en FR/EN/ES
+- [ ] Terminologie coherente avec le produit
 
 Questions ouvertes:
 -

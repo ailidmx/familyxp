@@ -39,6 +39,7 @@ apply_rule() {
     "strict": true,
     "contexts": [
       "Lint",
+      "I18n Guard",
       "TypeScript Check",
       "Tests"
     ]
