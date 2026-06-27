@@ -349,6 +349,20 @@ export default {
     },
   },
 
+  storeErrors: {
+    contract: {
+      loadContracts: 'Erreur lors du chargement des contrats',
+      notFound: 'Contrat introuvable',
+      loadContract: 'Erreur lors du chargement du contrat',
+      updateContract: 'Erreur lors de la mise a jour du contrat',
+      deleteContract: 'Erreur lors de la suppression du contrat',
+    },
+    household: {
+      loadHouseholds: 'Erreur lors du chargement des foyers',
+      loadMembers: 'Erreur lors du chargement des membres',
+    },
+  },
+
   // ─── Errors ──────────────────────────────────────────────────────────────
   errors: {
     notFound: 'Page non trouvée',

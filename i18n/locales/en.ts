@@ -350,6 +350,20 @@ export default {
     },
   },
 
+  storeErrors: {
+    contract: {
+      loadContracts: 'Failed to load contracts',
+      notFound: 'Contract not found',
+      loadContract: 'Failed to load contract',
+      updateContract: 'Failed to update contract',
+      deleteContract: 'Failed to delete contract',
+    },
+    household: {
+      loadHouseholds: 'Failed to load households',
+      loadMembers: 'Failed to load members',
+    },
+  },
+
   // ─── Errors ──────────────────────────────────────────────────────────────
   errors: {
     notFound: 'Page not found',

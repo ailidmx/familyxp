@@ -7,6 +7,11 @@ import type { Household, Membership, Invitation } from '~/app/types'
 import type { UserProfile } from '~/app/types/user'
 
 export const useHouseholdStore = defineStore('household', () => {
+  const t = (key: string) => {
+    const i18n = useNuxtApp().$i18n as { t?: (k: string) => string } | undefined
+    return i18n?.t?.(key) || key
+  }
+
   const households = ref<Household[]>([])
   const memberships = ref<Membership[]>([])
   const currentHouseholdId = ref<string | null>(null)
@@ -53,7 +58,7 @@ export const useHouseholdStore = defineStore('household', () => {
       }
     } catch (err) {
       console.error('Error loading households:', err)
-      error.value = 'Erreur lors du chargement des foyers'
+      error.value = t('storeErrors.household.loadHouseholds')
     } finally {
       isLoading.value = false
     }
@@ -114,7 +119,7 @@ export const useHouseholdStore = defineStore('household', () => {
       ).then((results) => results.flat())
     } catch (err) {
       console.error('Error fetching members:', err)
-      error.value = 'Erreur lors du chargement des membres'
+      error.value = t('storeErrors.household.loadMembers')
     } finally {
       isLoading.value = false
     }

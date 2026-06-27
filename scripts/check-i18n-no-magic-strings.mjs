@@ -15,7 +15,8 @@ function walk(dir) {
       out.push(...walk(full))
       continue
     }
-    if (extname(full) === '.vue') out.push(full)
+    const ext = extname(full)
+    if (ext === '.vue' || ext === '.ts' || ext === '.js') out.push(full)
   }
   return out
 }
@@ -30,7 +31,53 @@ function isLikelyUserText(text) {
   if (trimmed.includes('{{') || trimmed.includes('}}')) return false
   if (!/[A-Za-zÀ-ÿ]/.test(trimmed)) return false
   if (/^[A-Za-z]+\.[A-Za-z0-9_.-]+$/.test(trimmed)) return false
+  if (/^[a-z0-9_./-]+$/i.test(trimmed)) return false
   return true
+}
+
+function looksUserFacingKey(name) {
+  return /(message|label|title|subtitle|placeholder|hint|helper|error|success|warning|info|toast|banner|caption)/i.test(
+    name,
+  )
+}
+
+function scanScriptLike(filePath, source, fullContent, offset = 0) {
+  const findings = []
+
+  const assignmentRegex = /([A-Za-z_$][\w$]*(?:\.value)?)\s*=\s*(["'`])([^"'`\n]{2,})\2/g
+  let match
+  while ((match = assignmentRegex.exec(source)) !== null) {
+    const target = match[1] || ''
+    const value = (match[3] || '').trim()
+    const variableName = target.replace(/\.value$/, '')
+
+    if (!looksUserFacingKey(variableName)) continue
+    if (!isLikelyUserText(value)) continue
+
+    const absoluteIndex = offset + match.index
+    findings.push({
+      filePath,
+      line: lineAt(fullContent, absoluteIndex),
+      type: 'script-assignment',
+      value,
+    })
+  }
+
+  const uiObjectRegex = /(title|label|placeholder|description|message|text)\s*:\s*(["'`])([^"'`\n]{2,})\2/g
+  while ((match = uiObjectRegex.exec(source)) !== null) {
+    const value = (match[3] || '').trim()
+    if (!isLikelyUserText(value)) continue
+
+    const absoluteIndex = offset + match.index
+    findings.push({
+      filePath,
+      line: lineAt(fullContent, absoluteIndex),
+      type: 'script-ui-prop',
+      value,
+    })
+  }
+
+  return findings
 }
 
 function scanTemplate(filePath, content) {
@@ -73,13 +120,43 @@ function scanTemplate(filePath, content) {
   return findings
 }
 
+function scanVueScriptBlocks(filePath, content) {
+  const findings = []
+  const scriptRegex = /<script[^>]*>([\s\S]*?)<\/script>/g
+
+  let match
+  while ((match = scriptRegex.exec(content)) !== null) {
+    const scriptBody = match[1] || ''
+    const scriptStart = match.index
+    findings.push(
+      ...scanScriptLike(filePath, scriptBody, content, scriptStart),
+    )
+  }
+
+  return findings
+}
+
+function scanTsJsFile(filePath, content) {
+  return scanScriptLike(filePath, content, content, 0)
+}
+
 function main() {
   const files = walk(APP_DIR)
   const findings = []
 
   for (const filePath of files) {
+    if (filePath.includes('/i18n/locales/')) continue
+
     const content = readFileSync(filePath, 'utf8')
-    findings.push(...scanTemplate(filePath, content))
+    const ext = extname(filePath)
+
+    if (ext === '.vue') {
+      findings.push(...scanTemplate(filePath, content))
+      findings.push(...scanVueScriptBlocks(filePath, content))
+      continue
+    }
+
+    findings.push(...scanTsJsFile(filePath, content))
   }
 
   if (!findings.length) {

@@ -349,6 +349,20 @@ export default {
     },
   },
 
+  storeErrors: {
+    contract: {
+      loadContracts: 'Error al cargar contratos',
+      notFound: 'Contrato no encontrado',
+      loadContract: 'Error al cargar contrato',
+      updateContract: 'Error al actualizar contrato',
+      deleteContract: 'Error al eliminar contrato',
+    },
+    household: {
+      loadHouseholds: 'Error al cargar hogares',
+      loadMembers: 'Error al cargar miembros',
+    },
+  },
+
   // ─── Errors ──────────────────────────────────────────────────────────────
   errors: {
     notFound: 'Página no encontrada',
