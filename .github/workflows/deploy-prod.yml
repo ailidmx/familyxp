@@ -1,0 +1,39 @@
+name: Deploy PROD
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  deploy-prod:
+    name: Build and Deploy PROD
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create env file for PROD
+        run: |
+          echo "${{ secrets['NUXT_ENV_FILE_PROD'] }}" > .env.prod
+
+      - name: Build (PROD)
+        run: npm run build:prod
+
+      - name: Setup Firebase service account (PROD)
+        run: |
+          echo "${{ secrets['FIREBASE_SERVICE_ACCOUNT_PROD'] }}" > "$RUNNER_TEMP/firebase-prod.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/firebase-prod.json" >> "$GITHUB_ENV"
+
+      - name: Deploy to Firebase PROD
+        run: npx firebase-tools deploy --project familyxp-prod --only hosting,firestore:rules,storage --non-interactive

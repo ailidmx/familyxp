@@ -167,6 +167,38 @@ jobs:
           projectId: ${{ secrets.FIREBASE_PROJECT_ID }}
 ```
 
+## ✅ Stratégie CI/CD en place (branches + environnements)
+
+Workflows actifs:
+- `.github/workflows/ci.yml` : lint, typecheck, tests
+- `.github/workflows/deploy-dev.yml` : déploiement DEV automatique sur push `develop`
+- `.github/workflows/deploy-uat.yml` : déploiement UAT automatique sur push `main`
+- `.github/workflows/deploy-prod.yml` : déploiement PROD manuel (`workflow_dispatch`) ou release
+
+Flux recommandé:
+1. Feature branch -> PR vers `develop`
+2. Merge `develop` -> déploiement DEV automatique
+3. PR `develop` -> `main` -> déploiement UAT automatique
+4. Validation UAT puis release -> déploiement PROD
+
+### Secrets GitHub requis
+
+- `FIREBASE_SERVICE_ACCOUNT_DEV`
+- `FIREBASE_SERVICE_ACCOUNT_UAT`
+- `FIREBASE_SERVICE_ACCOUNT_PROD`
+- `NUXT_ENV_FILE_DEV`
+- `NUXT_ENV_FILE_UAT`
+- `NUXT_ENV_FILE_PROD`
+
+### Environments GitHub recommandés
+
+Créer dans GitHub Settings > Environments:
+- `dev`
+- `uat`
+- `prod`
+
+Pour `prod`, activer des reviewers obligatoires avant exécution du workflow.
+
 ## 📱 PWA
 
 ### Configuration PWA (nuxt.config.ts)
@@ -227,7 +259,12 @@ FamilyXP utilise **3 projets Firebase distincts** pour séparer les environnemen
 # Dev (développement local + emulators)
 npm run dev
 
+# Option recommandée: switch centralisé
+npm run env:use -- dev
+npm run dev:active
+
 # Build pour un environnement spécifique
+npm run build:active   # -> build de l'environnement actif
 npm run build:dev      # → .output/public (dev)
 npm run build:uat      # → .output/public (uat)
 npm run build:prod     # → .output/public (prod)

@@ -6,11 +6,25 @@ Guide technique pour configurer les 4 environnements FamilyXP : **local**, **dev
 
 ## 📋 Prérequis
 
-- Node.js >= 20
+- nvm (Node Version Manager)
+- Node.js LTS 20 (via `.nvmrc`)
+- Java JDK >= 11 (recommandé : 21 pour Firebase Emulator Suite)
 - Git
 - Compte GitHub avec accès au repo
 - Firebase CLI (`npm install -g firebase-tools`)
 - Compte Firebase (gratuit)
+
+### Aligner la version Node avec nvm
+
+Depuis la racine du repo :
+
+```bash
+nvm install
+nvm use
+node -v
+```
+
+La commande doit retourner une version Node 20.x.
 
 ---
 
@@ -72,6 +86,21 @@ NUXT_PUBLIC_FIREBASE_APP_ID=1:...:web:...
 
 ## 🚀 Lancer les environnements
 
+### Mode recommande (switch centralise)
+
+```bash
+# Choisir l'environnement cible
+npm run env:use -- local   # ou dev / uat / prod
+
+# Verifier l'environnement selectionne
+npm run env:show
+
+# Lancer avec l'environnement actif
+npm run dev:active
+```
+
+Ce mode est recommande pour eviter les erreurs de cible Firebase.
+
 ### LOCAL (émulateurs)
 
 ```bash
@@ -127,6 +156,23 @@ npm run build:dev    # ou build:uat / build:prod
 npm run deploy:dev   # ou deploy:uat / deploy:prod
 ```
 
+### Déployer via GitHub Actions (recommande)
+
+Workflows disponibles:
+- `.github/workflows/deploy-dev.yml`
+- `.github/workflows/deploy-uat.yml`
+- `.github/workflows/deploy-prod.yml`
+
+Secrets GitHub obligatoires:
+- `FIREBASE_SERVICE_ACCOUNT_DEV`
+- `FIREBASE_SERVICE_ACCOUNT_UAT`
+- `FIREBASE_SERVICE_ACCOUNT_PROD`
+- `NUXT_ENV_FILE_DEV`
+- `NUXT_ENV_FILE_UAT`
+- `NUXT_ENV_FILE_PROD`
+
+Le secret `NUXT_ENV_FILE_*` doit contenir le contenu complet du fichier `.env.*` correspondant.
+
 ---
 
 ## 🔥 Émulateurs Firebase
@@ -160,12 +206,17 @@ Les émulateurs sauvegardent automatiquement les données dans `./firebase-data/
 
 ```bash
 npm run dev:local     # Développement local (émulateurs)
+npm run dev:active    # Développement sur environnement actif (.env.active)
 npm run dev:dev       # Développement sur DEV
 npm run dev:uat       # Développement sur UAT
 npm run dev:prod      # Développement sur PROD
+npm run env:list      # Liste les environnements
+npm run env:show      # Affiche l'environnement actif
+npm run env:use -- dev # Bascule .env.active vers dev
 npm run build:dev     # Build pour DEV
 npm run build:uat     # Build pour UAT
 npm run build:prod    # Build pour PROD
+npm run build:active  # Build de l'environnement actif
 npm run deploy:dev    # Déploiement DEV
 npm run deploy:uat    # Déploiement UAT
 npm run deploy:prod   # Déploiement PROD

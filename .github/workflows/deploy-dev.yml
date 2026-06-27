@@ -1,0 +1,39 @@
+name: Deploy DEV
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+jobs:
+  deploy-dev:
+    name: Build and Deploy DEV
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create env file for DEV
+        run: |
+          echo "${{ secrets['NUXT_ENV_FILE_DEV'] }}" > .env.dev
+
+      - name: Build (DEV)
+        run: npm run build:dev
+
+      - name: Setup Firebase service account (DEV)
+        run: |
+          echo "${{ secrets['FIREBASE_SERVICE_ACCOUNT_DEV'] }}" > "$RUNNER_TEMP/firebase-dev.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/firebase-dev.json" >> "$GITHUB_ENV"
+
+      - name: Deploy to Firebase DEV
+        run: npx firebase-tools deploy --project familyxp-dev --only hosting,firestore:rules,storage --non-interactive

@@ -3,12 +3,17 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "env:list": "node scripts/env-manager.mjs list",
+    "env:show": "node scripts/env-manager.mjs show",
+    "env:use": "node scripts/env-manager.mjs use",
     "dev": "nuxi dev",
+    "dev:active": "nuxi dev --dotenv .env.active",
     "dev:local": "nuxi dev --dotenv .env.local",
     "dev:dev": "nuxi dev --dotenv .env.dev",
     "dev:uat": "nuxi dev --dotenv .env.uat",
     "dev:prod": "nuxi dev --dotenv .env.prod",
     "build": "nuxi build",
+    "build:active": "nuxi build --dotenv .env.active",
     "build:dev": "nuxi build --dotenv .env.dev",
     "build:uat": "nuxi build --dotenv .env.uat",
     "build:prod": "nuxi build --dotenv .env.prod",
@@ -76,6 +81,6 @@
     ]
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": "20.x"
   }
 }

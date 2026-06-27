@@ -31,6 +31,14 @@ git push origin feat/ma-fonctionnalite
 # 6. Créer une Pull Request
 ```
 
+### Règle absolue
+
+- Pas de push direct sur `main/master` ni `develop`
+- Toutes les évolutions passent par Pull Request
+- Merge uniquement avec CI au vert
+
+Voir le guide complet: `docs/GIT_GOVERNANCE.md`
+
 ## 📝 Conventions
 
 ### Branches
@@ -95,3 +103,26 @@ Toute modification importante doit être documentée :
 - [ ] Pas de logique métier dans les composants
 - [ ] Mobile-first
 - [ ] Une fonctionnalité = une PR
+
+## 🌍 Switch d'environnement rapide
+
+Le projet permet de basculer facilement entre local/dev/uat/prod.
+
+```bash
+# Voir les environnements disponibles
+npm run env:list
+
+# Activer un environnement
+npm run env:use -- local
+npm run env:use -- dev
+npm run env:use -- uat
+npm run env:use -- prod
+
+# Vérifier l'environnement actif
+npm run env:show
+
+# Lancer l'app avec l'environnement actif
+npm run dev:active
+```
+
+Le fichier `.env.active` est généré automatiquement (non versionné).
