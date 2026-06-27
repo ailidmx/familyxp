@@ -1,139 +1,166 @@
-# Pull Request — FamilyXP
+# Pull Request — FamilyXP (Template Complet)
 
-> **Lis-moi avant de créer ta PR** — ce template est conçu pour être pédagogique et complet. Prends le temps de bien remplir chaque section.
+> Objectif: produire des PR claires, auditables et rapides a relire.
+> Cette PR doit permettre a un reviewer de comprendre le besoin, verifier les risques et valider le deploiement sans discussion supplementaire.
 
----
+## 1) Liaison ticket et contexte
 
-## 🔗 Lien vers l'issue
+Issue principale: #
 
-<!--
-Obligatoire : chaque PR doit être liée à une issue GitHub.
-Si l'issue n'existe pas encore, crée-la d'abord.
-Exemple : "Closes #12" ou "Related to #34"
--->
+Tickets lies:
+- #
 
-**Issue :** #
+Contexte metier (2-5 lignes):
+-
 
----
+Contrainte produit importante (si applicable):
+- multi-tenant
+- mobile-first
+- TypeScript strict
+- RGPD / consentement
 
-## 🎯 Objectif de la PR
+## 2) Type de changement
 
-<!--
-Décris en 1-2 phrases ce que cette PR apporte.
-Exemple : "Ajoute la création de foyer avec formulaire de base et validation côté client."
--->
+- [ ] feat (nouvelle fonctionnalite)
+- [ ] fix (correction)
+- [ ] refactor (sans changement fonctionnel)
+- [ ] docs
+- [ ] test
+- [ ] chore/ci
 
-**Quoi :**
+## 3) Objectif fonctionnel
 
-**Pourquoi :**
+Ce que fait la PR (attendu utilisateur):
+-
 
----
+Ce que la PR ne fait pas volontairement:
+-
 
-## 🧠 Contexte et décisions
+Definition of Done de cette PR:
+- [ ] Cas nominal valide
+- [ ] Cas erreur traite
+- [ ] Cas vide/edge-case traite
 
-<!--
-Explique POURQUOI tu as fait ces choix techniques.
-C'est la section la plus importante pour les reviewers.
-Exemple : "J'ai choisi un composable plutôt qu'un store Pinia car cette logique est purement UI et n'a pas besoin d'être partagée entre pages."
--->
+## 4) Design technique et decisions
 
-**Décisions techniques :**
+Approche retenue:
+-
 
-**Alternatives envisagées :**
+Fichiers/zones impactes:
+-
 
----
+Alternatives evaluees et pourquoi non retenues:
+-
 
-## ✅ Checklist de qualité
+Dette technique ajoutee volontairement (si oui, decrire):
+-
 
-<!--
-Coche tout ce qui s'applique. Si une case n'est pas cochée, explique pourquoi dans les commentaires.
--->
+## 5) Impacts data, securite, conformité
 
-- [ ] **Tests unitaires** — ajoutés ou mis à jour
-- [ ] **Tests E2E** — ajoutés ou mis à jour (si applicable)
-- [ ] **TypeScript strict** — pas de `any`, pas de `@ts-ignore`
-- [ ] **i18n** — toutes les nouvelles chaînes sont traduites (FR + ES)
-- [ ] **Mobile-first** — responsive testé sur écran mobile
-- [ ] **Accessibilité** — labels, rôles, contrastes
-- [ ] **Documentation** — mise à jour si nécessaire (README, ARCHITECTURE, DATA_MODEL, etc.)
-- [ ] **Pas de logique métier dans les composants** — utilisation de stores/composables
-- [ ] **Pas de famille en dur** — les données familiales sont en seed data uniquement
+Firestore/Storage/Auth impactes:
+- [ ] Aucun
+- [ ] Oui (decrire)
 
----
+Risque securite:
+- [ ] Aucun
+- [ ] Faible
+- [ ] Moyen
+- [ ] Eleve
 
-## 📸 Captures d'écran (si UI)
+Donnees personnelles touchees:
+- [ ] Non
+- [ ] Oui (decrire type de donnees et justification)
 
-<!--
-Ajoute des captures pour montrer le rendu mobile ET desktop.
-Tu peux utiliser : Cmd+Shift+4 (macOS) ou un outil de capture.
--->
+Consentement/geoloc/politique:
+- [ ] Non concerne
+- [ ] Concerne et pris en charge
+
+## 6) Strategie de test
+
+Tests ajoutes/modifies:
+- [ ] Unitaires
+- [ ] Composants
+- [ ] E2E Playwright
+- [ ] Aucun (justifier)
+
+Commandes executees localement:
+
+```bash
+npm run lint
+npm run check:i18n
+npm run typecheck
+npm run test
+```
+
+Resultats:
+-
+
+## 7) Verification manuelle pas a pas
+
+Preconditions:
+1. npm run env:use -- <local|dev|uat|prod>
+2. npm run dev:active
+
+Parcours de verification:
+1.
+2.
+3.
+
+Resultat attendu:
+-
+
+## 8) Environnements et deploiement
+
+Environnement cible principal:
+- [ ] local
+- [ ] dev
+- [ ] uat
+- [ ] prod
+
+Impact workflows GitHub Actions:
+- [ ] Aucun
+- [ ] deploy-dev.yml
+- [ ] deploy-uat.yml
+- [ ] deploy-prod.yml
+
+Plan de rollback (obligatoire si risque moyen/eleve):
+1.
+2.
+
+## 9) UX, accessibilite, i18n
+
+- [ ] Mobile-first verifie (small viewport)
+- [ ] Accessibilite de base (labels, roles, focus)
+- [ ] i18n complete (FR/EN/ES selon zone)
+- [ ] Zero magic string UI (aucun texte utilisateur en dur)
+- [ ] Verification auto i18n passee (`npm run check:i18n`)
+- [ ] Revue humaine i18n effectuee (texte, tonalite, traduction, coherence)
+- [ ] Captures ecran ajoutees si UI
+
+Captures ecran (si UI):
 
 | Mobile | Desktop |
 |--------|---------|
 |        |         |
 
----
+## 10) Checklist finale merge
 
-## 🧪 Comment tester
+- [ ] Aucun secret/cle privee commit
+- [ ] Pas de logique metier dans les composants
+- [ ] Pas de donnees famille hardcodees
+- [ ] Documentation mise a jour si necessaire
+- [ ] PR lisible: objectif, risque, tests, rollback
+- [ ] Ready for review
 
-<!--
-Donne les étapes précises pour tester cette PR en local.
-Exemple :
-1. `npm run dev`
-2. Créer un compte
-3. Aller sur /household/create
-4. Remplir le formulaire et valider
-5. Vérifier que le foyer apparaît dans le dashboard
--->
+## 11) Notes reviewer
 
-**Étapes :**
+Points a relire en priorite:
+-
 
-1.
-2.
-3.
+Controle reviewer i18n obligatoire:
+- [ ] Aucun texte utilisateur en dur dans les composants
+- [ ] Clés i18n existantes en FR/EN/ES
+- [ ] Terminologie coherente avec le produit
 
-**Environnement de test :** `npm run dev:local`
-
----
-
-## 🚀 Mapping environnement
-
-<!--
-Indique quel environnement est concerné par cette PR.
--->
-
-- [ ] **local** — développement avec émulateurs Firebase
-- [ ] **dev** — déploiement sur le projet Firebase dev
-- [ ] **uat** — déploiement sur le projet Firebase uat
-- [ ] **prod** — déploiement sur le projet Firebase prod
-
----
-
-## 🔄 Type de changement
-
-- [ ] 🐛 Correction de bug
-- [ ] ✨ Nouvelle fonctionnalité
-- [ ] ♻️ Refactoring
-- [ ] 📚 Documentation
-- [ ] 🧪 Tests
-- [ ] ⚙️ Configuration / CI
-
----
-
-## 💬 Notes pour le reviewer
-
-<!--
-Y a-t-il quelque chose de délicat à vérifier ?
-Des parties du code qui méritent une attention particulière ?
--->
-
-**Points d'attention :**
-
-**Ce qui n'est PAS dans cette PR (et sera dans une PR future) :**
-
----
-
-<!--
-Merci d'avoir pris le temps de bien remplir cette PR ! 🙏
-Chaque PR bien documentée = une relecture plus rapide et plus efficace.
--->
+Questions ouvertes:
+-

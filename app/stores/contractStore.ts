@@ -15,6 +15,11 @@ import type { Rule } from '~/app/types'
 import type { Reward } from '~/app/types'
 
 export const useContractStore = defineStore('contract', () => {
+  const t = (key: string) => {
+    const i18n = useNuxtApp().$i18n as { t?: (k: string) => string } | undefined
+    return i18n?.t?.(key) || key
+  }
+
   const contracts = ref<Contract[]>([])
   const currentContract = ref<Contract | null>(null)
   const isLoading = ref(false)
@@ -47,7 +52,7 @@ export const useContractStore = defineStore('contract', () => {
       )
     } catch (err) {
       console.error('Error loading contracts:', err)
-      error.value = "Erreur lors du chargement des contrats"
+      error.value = t('storeErrors.contract.loadContracts')
     } finally {
       isLoading.value = false
     }
@@ -59,14 +64,14 @@ export const useContractStore = defineStore('contract', () => {
     try {
       const contract = await getDocument<Contract>(`contracts/${id}`)
       if (!contract) {
-        error.value = 'Contrat introuvable'
+        error.value = t('storeErrors.contract.notFound')
         currentContract.value = null
         return
       }
       currentContract.value = contract
     } catch (err) {
       console.error('Error loading contract:', err)
-      error.value = "Erreur lors du chargement du contrat"
+      error.value = t('storeErrors.contract.loadContract')
       currentContract.value = null
     } finally {
       isLoading.value = false
@@ -121,7 +126,7 @@ export const useContractStore = defineStore('contract', () => {
       }
     } catch (err) {
       console.error('Error updating contract:', err)
-      error.value = "Erreur lors de la mise à jour du contrat"
+      error.value = t('storeErrors.contract.updateContract')
     }
   }
 
@@ -139,7 +144,7 @@ export const useContractStore = defineStore('contract', () => {
       contracts.value = contracts.value.filter((c) => c.id !== id)
     } catch (err) {
       console.error('Error deleting contract:', err)
-      error.value = "Erreur lors de la suppression du contrat"
+      error.value = t('storeErrors.contract.deleteContract')
     }
   }
 

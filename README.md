@@ -58,6 +58,10 @@ Chaque foyer définit **son propre contrat familial** négocié ensemble :
 git clone https://github.com/casabert/familyxp.git
 cd familyxp
 
+# Aligner Node sur la version LTS du projet
+nvm install
+nvm use
+
 # Installer les dépendances
 npm install
 
@@ -80,6 +84,7 @@ npm run dev
 | [CLAUDE.md](CLAUDE.md) | Instructions spécifiques Claude |
 | [COPILOT.md](COPILOT.md) | Instructions spécifiques GitHub Copilot |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Guide de contribution |
+| [docs/GIT_GOVERNANCE.md](docs/GIT_GOVERNANCE.md) | Stratégie Git, PR obligatoires, branch protections |
 | [CHANGELOG.md](CHANGELOG.md) | Historique des versions |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Architecture technique |
 | [docs/DATA_MODEL.md](docs/DATA_MODEL.md) | Modèle de données Firestore |
@@ -145,6 +150,21 @@ L'application est une PWA installable :
 ## 🤝 Contribution
 
 Voir [CONTRIBUTING.md](CONTRIBUTING.md) pour les détails.
+
+## 🔐 Gouvernance Git (obligatoire)
+
+- Pull Request obligatoire vers `develop` et `main/master`
+- Interdiction de push direct sur branches protégées
+- CI obligatoire (lint, typecheck, tests)
+
+Guide complet : [docs/GIT_GOVERNANCE.md](docs/GIT_GOVERNANCE.md)
+
+Automatisation possible via GitHub CLI :
+
+```bash
+chmod +x scripts/setup-branch-protection.sh
+REPO=ailidmx/familyxp ./scripts/setup-branch-protection.sh
+```
 
 ## 📄 Licence
 

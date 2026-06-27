@@ -37,6 +37,13 @@
 - [ ] Prettier est-il appliqué ?
 - [ ] Les noms sont-ils cohérents (composables, stores, composants) ?
 
+### i18n (obligatoire)
+- [ ] Aucun texte utilisateur en dur (magic string) dans les templates/composants
+- [ ] Toutes les nouvelles clés existent en FR, EN et ES
+- [ ] Les placeholders, labels, messages d'erreur et CTA sont internationalisés
+- [ ] Le contrôle automatique `npm run check:i18n` passe
+- [ ] La revue humaine i18n valide ton, cohérence et qualité des traductions
+
 ### Documentation
 - [ ] La documentation est-elle mise à jour si nécessaire ?
 - [ ] Les changements sont-ils documentés dans CHANGELOG.md ?

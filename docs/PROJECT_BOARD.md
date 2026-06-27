@@ -8,16 +8,13 @@
 ## 📋 Todo — À faire
 
 - [ ] Activer Google Sign-In sur les 3 projets Firebase
-- [ ] Phase 2 : Modèle familial (Users, Households, Memberships)
-- [ ] Phase 3 : Contrats (création, règles bonus/malus, objectifs, récompenses)
-- [ ] Phase 4 : Points (ajout/retrait, historique, validation, dashboard)
 - [ ] Phase 5 : Expérience (badges, classements, défis, statistiques, PWA polish)
 - [ ] Phase 6 : Premium (limites freemium, multi-foyers, IA, exports, thèmes)
 
 ## 🔧 In Progress — En cours
 
-- [ ] Budget & coûts suivi dans docs/BUDGET.md
-- [ ] Ajouter les tâches Phase 2 dans le GitHub Project Board
+- [ ] MVP : Auth complete (sign-in/sign-up) + consentement géolocalisation
+- [ ] MVP : Brand Lab (groupes/permissions + votes logos/slogans + suggestions)
 
 ## ✅ Done — Terminé
 
@@ -49,10 +46,17 @@
 
 ### Documentation & Suivi ✅
 
-- [x] docs/BUDGET.md — Suivi des coûts (10 $/mois Copilot Pro)
+- [x] docs/BUDGET.md — Suivi strict des coûts consolidés (ChatGPT, Cline, DeepSeek, Google Cloud)
 - [x] docs/PROJECT_BOARD.md — Board de suivi des tâches
 - [x] GitHub Project Board #3 créé et public
 - [x] README.md complet avec liens utiles
+- [x] Gouvernance Git stricte (branch protection main/develop, PR template complet, CI/CD DEV/UAT/PROD)
+
+### Phases produit ✅
+
+- [x] Phase 2 : Modèle familial (Users, Households, Memberships, roles)
+- [x] Phase 3 : Contrats (création, règles bonus/malus, objectifs, récompenses)
+- [x] Phase 4 : Points (ajout/retrait, historique, validation, dashboard)
 
 ---
 
@@ -72,6 +76,6 @@ Voir [docs/BUDGET.md](./BUDGET.md) pour le détail complet.
 ## 📊 Statistiques du projet
 
 - Dernière mise à jour : 26/06/2026
-- Phase actuelle : Phase 1 (Socle technique) — ✅ Terminée
-- Prochaine phase : Phase 2 (Modèle familial)
-- Budget mensuel : 10 $ (Copilot Pro)
+- Phase actuelle : MVP mode permanent (features complètes)
+- Focus en cours : Auth complete + consent geoloc
+- Budget : voir docs/BUDGET.md
