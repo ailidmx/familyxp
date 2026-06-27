@@ -1,64 +1,59 @@
+/**
+ * Types pour les utilisateurs
+ * 
+ * Un utilisateur = une personne physique identifiée par Firebase Auth.
+ * Les données de profil sont stockées dans Firestore (collection "users").
+ */
+
 import type { Timestamp } from 'firebase/firestore'
 
-/**
- * Rôles utilisateur dans FamilyXP
- *
- * - 'user' : utilisateur standard (peut gagner/perdre des points, réclamer des récompenses)
- * - 'admin' : administrateur global (gère les foyers, les contrats, les validations)
- * - 'superadmin' : super-administrateur (accès à toutes les fonctionnalités, gestion des comptes)
- */
-export type UserRole = 'user' | 'admin' | 'superadmin'
+/** Rôles possibles dans un foyer */
+export type HouseholdRole = 'admin' | 'parent' | 'child' | 'guest'
 
-/**
- * Utilisateur de FamilyXP
- *
- * Un utilisateur peut être :
- * - Adulte (isMinor = false) : peut valider, créer des contrats, gérer les foyers
- * - Mineur (isMinor = true) : doit être rattaché à au moins un adulte référent (guardianIds)
- *
- * L'avatar peut être :
- * - Une photo uploadée (photoURL)
- * - Un avatar généré par défaut (initials, emoji, etc.)
- */
-export interface User {
-  id: string
-  displayName: string
+/** Statut du consentement */
+export type ConsentStatus = 'pending' | 'granted' | 'denied' | 'expired'
+
+/** Genre (optionnel, pour l'affichage) */
+export type Gender = 'male' | 'female' | 'other' | 'prefer_not_to_say'
+
+export interface UserProfile {
+  /** UID Firebase Auth */
+  uid: string
+  /** Email (provenant de Firebase Auth) */
   email: string
-
-  /** Rôle global de l'utilisateur (défaut: 'user') */
-  role: UserRole
-
-  /** URL de la photo de profil (Firebase Storage ou externe) */
+  /** Nom d'affichage */
+  displayName: string
+  /** Photo de profil (URL Firebase Storage) */
   photoURL?: string
-
-  /** ID de l'avatar ludique choisi (depuis la collection AVATARS) */
-  avatarId?: string
-
-  /** Date de naissance (pour déterminer l'âge et les droits) */
+  /** Date de naissance (pour vérification âge) */
   birthDate?: Timestamp
-
-  /** true si l'utilisateur est mineur (< 18 ans) */
-  isMinor: boolean
-
-  /** IDs des adultes référents (parents/tuteurs) — obligatoire si isMinor */
-  guardianIds: string[]
-
-  /** Timestamp de création du compte */
+  /** Genre (optionnel) */
+  gender?: Gender
+  /** Date de création du compte */
   createdAt: Timestamp
-
-  /** Timestamp de dernière modification */
-  updatedAt: Timestamp
+  /** Dernière connexion */
+  lastLoginAt?: Timestamp
+  /** Préférences de langue */
+  locale: 'fr' | 'en' | 'es'
+  /** Consentement RGPD / LFPDPPP */
+  consent: {
+    status: ConsentStatus
+    /** Version de la politique acceptée */
+    policyVersion: number
+    /** Date d'acceptation */
+    acceptedAt?: Timestamp
+    /** UID du parent ayant donné le consentement (pour mineurs) */
+    parentUid?: string
+  }
+  /** Compte actif ou supprimé */
+  isActive: boolean
 }
 
-/**
- * Données nécessaires à l'inscription
- * (ce qu'on collecte dans le formulaire)
- */
-export interface SignUpData {
-  displayName: string
+/** Données minimales pour la création d'un utilisateur */
+export interface UserCreateInput {
+  uid: string
   email: string
-  password: string
+  displayName: string
+  locale?: 'fr' | 'en' | 'es'
   birthDate?: Date
-  isMinor: boolean
-  guardianEmail?: string // Email de l'adulte référent (pour les mineurs)
 }

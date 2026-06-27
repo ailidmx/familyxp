@@ -5,6 +5,28 @@
     "uat": "familyxp-uat",
     "prod": "familyxp-prod"
   },
-  "targets": {},
+  "targets": {
+    "famillyxp": {
+      "hosting": {
+        "dev": [
+          "famillyxp"
+        ]
+      }
+    },
+    "familyxp-uat": {
+      "hosting": {
+        "uat": [
+          "familyxp-uat"
+        ]
+      }
+    },
+    "familyxp-prod": {
+      "hosting": {
+        "prod": [
+          "familyxp-prod"
+        ]
+      }
+    }
+  },
   "etags": {}
 }

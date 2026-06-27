@@ -97,6 +97,12 @@ export default {
     settings: 'Paramètres du foyer',
     premium: 'Foyer Premium',
     upgrade: 'Passer à Premium',
+    joinTitle: 'Rejoindre un foyer',
+    joinDescription: 'Entrez le code d\'invitation que vous avez reçu',
+    inviteCode: 'Code d\'invitation',
+    codePlaceholder: 'ABCDEF',
+    joinSuccess: 'Vous avez rejoint le foyer !',
+    backToList: 'Retour à la liste des foyers',
   },
 
   // ─── Contract (Contrat) ──────────────────────────────────────────────────

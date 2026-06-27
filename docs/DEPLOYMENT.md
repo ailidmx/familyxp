@@ -211,11 +211,69 @@ export default defineNuxtConfig({
 })
 ```
 
-## 🌐 Domaines
+## 🌐 Environnements
 
-### Déploiement initial
-- `https://familyxp.web.app` (Firebase Hosting gratuit)
-- `https://familyxp.firebaseapp.com` (alternative)
+FamilyXP utilise **3 projets Firebase distincts** pour séparer les environnements de développement, recette et production.
+
+| Environnement | Projet Firebase | Site Hosting | URL |
+|---------------|----------------|--------------|-----|
+| **Dev** | `famillyxp` | `famillyxp` | [https://famillyxp-dev.web.app](https://famillyxp-dev.web.app) |
+| **UAT** | `familyxp-uat` | `familyxp-uat` | [https://familyxp-uat.web.app](https://familyxp-uat.web.app) |
+| **Prod** | `familyxp-prod` | `familyxp-prod` | [https://familyxp-prod.web.app](https://familyxp-prod.web.app) |
+
+### Déploiement par environnement
+
+```bash
+# Dev (développement local + emulators)
+npm run dev
+
+# Build pour un environnement spécifique
+npm run build:dev      # → .output/public (dev)
+npm run build:uat      # → .output/public (uat)
+npm run build:prod     # → .output/public (prod)
+
+# Déploiement vers un environnement spécifique
+firebase deploy --project famillyxp --only hosting:dev
+firebase deploy --project familyxp-uat --only hosting:uat
+firebase deploy --project familyxp-prod --only hosting:prod
+
+# Déploiement complet (Firestore rules + hosting)
+firebase deploy --project familyxp-prod
+```
+
+### Configuration .firebaserc
+
+```json
+{
+  "projects": {
+    "default": "famillyxp",
+    "dev": "famillyxp",
+    "uat": "familyxp-uat",
+    "prod": "familyxp-prod"
+  },
+  "targets": {
+    "famillyxp": {
+      "hosting": { "dev": ["famillyxp"] }
+    },
+    "familyxp-uat": {
+      "hosting": { "uat": ["familyxp-uat"] }
+    },
+    "familyxp-prod": {
+      "hosting": { "prod": ["familyxp-prod"] }
+    }
+  }
+}
+```
+
+### Variables d'environnement par environnement
+
+Chaque projet Firebase a ses propres clés de configuration. Les fichiers `.env` :
+
+```
+.env.development    → Projet famillyxp (dev)
+.env.uat            → Projet familyxp-uat
+.env.production     → Projet familyxp-prod
+```
 
 ### Domaine personnalisé (plus tard)
 - `familyxp.app` ou `famquest.app`
